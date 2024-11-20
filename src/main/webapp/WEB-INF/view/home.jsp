@@ -8,10 +8,15 @@
 <html>
 <head>
     <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="/Styles/home.css">
 </head>
 <body>
-<jsp:include page="cabecera.jsp"/>
-<h1>home de <%= accountName %></h1>
-<p></p>
+<div class="container-cabecera">
+    <jsp:include page="cabecera.jsp"/>
+</div>
+
+<div class="home-container">
+    <h1>home de <%= accountName %></h1>
+</div>
 </body>
 </html>

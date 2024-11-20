@@ -8,7 +8,11 @@
     <title>Cabecera</title>
 </head>
 <body>
-<img src="${pageContext.request.contextPath}/Images/logo.png" alt="Logo" class="img-fluid">
 
+<nav class="navbar">
+    <a class="navbar-brand" href="#">
+        <img src="/Images/logo.png" alt="Logo" width="254.4px" height="40px">
+    </a>
+</nav>
 </body>
 </html>
