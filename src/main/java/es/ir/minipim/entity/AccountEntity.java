@@ -6,11 +6,11 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@jakarta.persistence.Table(name = "account", schema = "grupo05DB", catalog = "")
+@Table(name = "account", schema = "grupo05DB", catalog = "")
 public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @jakarta.persistence.Column(name = "account_id", nullable = false)
+    @Column(name = "account_id", nullable = false)
     private Integer accountId;
 
     public Integer getAccountId() {
