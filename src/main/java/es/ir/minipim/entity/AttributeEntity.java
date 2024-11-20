@@ -3,7 +3,10 @@ package es.ir.minipim.entity;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 @Entity
 @Table(name = "attribute", schema = "grupo05DB", catalog = "")
@@ -12,6 +15,22 @@ public class AttributeEntity {
     @Id
     @Column(name = "attribute_id", nullable = false)
     private Integer attributeId;
+    @Basic
+    @Column(name = "attribute_name", nullable = false, length = 50)
+    private String attributeName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "attribute_type", nullable = false)
+    private AttributeType attributeType;
+    @Basic
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+    @OneToMany(mappedBy = "attributeByAttributeIdFk")
+    private Collection<AccountAttributeEntity> accountAttributesByAttributeId;
+    @ManyToOne
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id", nullable = false)
+    private AccountEntity accountByAccountIdFk;
+    @OneToMany(mappedBy = "attributeByAttributeIdFk")
+    private Collection<ProductAttributeEntity> productAttributesByAttributeId;
 
     public Integer getAttributeId() {
         return attributeId;
@@ -21,10 +40,6 @@ public class AttributeEntity {
         this.attributeId = attributeId;
     }
 
-    @Basic
-    @Column(name = "attribute_name", nullable = false, length = 50)
-    private String attributeName;
-
     public String getAttributeName() {
         return attributeName;
     }
@@ -33,21 +48,13 @@ public class AttributeEntity {
         this.attributeName = attributeName;
     }
 
-    @Basic
-    @Column(name = "attribute_type", nullable = false, precision = 0)
-    private Object attributeType;
-
-    public Object getAttributeType() {
+    public AttributeType getAttributeType() {
         return attributeType;
     }
 
-    public void setAttributeType(Object attributeType) {
+    public void setAttributeType(AttributeType attributeType) {
         this.attributeType = attributeType;
     }
-
-    @Basic
-    @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -68,5 +75,29 @@ public class AttributeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(attributeId, attributeName, attributeType, createdAt);
+    }
+
+    public Collection<AccountAttributeEntity> getAccountAttributesByAttributeId() {
+        return accountAttributesByAttributeId;
+    }
+
+    public void setAccountAttributesByAttributeId(Collection<AccountAttributeEntity> accountAttributesByAttributeId) {
+        this.accountAttributesByAttributeId = accountAttributesByAttributeId;
+    }
+
+    public AccountEntity getAccountByAccountIdFk() {
+        return accountByAccountIdFk;
+    }
+
+    public void setAccountByAccountIdFk(AccountEntity accountByAccountIdFk) {
+        this.accountByAccountIdFk = accountByAccountIdFk;
+    }
+
+    public Collection<ProductAttributeEntity> getProductAttributesByAttributeId() {
+        return productAttributesByAttributeId;
+    }
+
+    public void setProductAttributesByAttributeId(Collection<ProductAttributeEntity> productAttributesByAttributeId) {
+        this.productAttributesByAttributeId = productAttributesByAttributeId;
     }
 }

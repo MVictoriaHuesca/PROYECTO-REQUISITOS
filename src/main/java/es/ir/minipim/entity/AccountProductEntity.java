@@ -12,6 +12,16 @@ public class AccountProductEntity {
     @Id
     @Column(name = "account_id_fk", nullable = false)
     private Integer accountIdFk;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "product_id_fk", nullable = false)
+    private Integer productIdFk;
+    @ManyToOne
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id", nullable = false)
+    private AccountEntity accountByAccountIdFk;
+    @ManyToOne
+    @JoinColumn(name = "product_id_fk", referencedColumnName = "product_id", nullable = false)
+    private ProductEntity productByProductIdFk;
 
     public Integer getAccountIdFk() {
         return accountIdFk;
@@ -20,11 +30,6 @@ public class AccountProductEntity {
     public void setAccountIdFk(Integer accountIdFk) {
         this.accountIdFk = accountIdFk;
     }
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "product_id_fk", nullable = false)
-    private Integer productIdFk;
 
     public Integer getProductIdFk() {
         return productIdFk;
@@ -45,5 +50,21 @@ public class AccountProductEntity {
     @Override
     public int hashCode() {
         return Objects.hash(accountIdFk, productIdFk);
+    }
+
+    public AccountEntity getAccountByAccountIdFk() {
+        return accountByAccountIdFk;
+    }
+
+    public void setAccountByAccountIdFk(AccountEntity accountByAccountIdFk) {
+        this.accountByAccountIdFk = accountByAccountIdFk;
+    }
+
+    public ProductEntity getProductByProductIdFk() {
+        return productByProductIdFk;
+    }
+
+    public void setProductByProductIdFk(ProductEntity productByProductIdFk) {
+        this.productByProductIdFk = productByProductIdFk;
     }
 }

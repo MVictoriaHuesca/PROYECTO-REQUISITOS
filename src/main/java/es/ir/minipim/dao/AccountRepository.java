@@ -1,5 +1,6 @@
 package es.ir.minipim.dao;
+import es.ir.minipim.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import es.ir.minipim.entity.AccountsEntity;
-public interface AccountRepository extends JpaRepository<AccountsEntity, Integer>{
+
+public interface AccountRepository extends JpaRepository<AccountEntity, Integer>{
 }

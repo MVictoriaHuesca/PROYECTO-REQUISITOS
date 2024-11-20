@@ -3,6 +3,7 @@ package es.ir.minipim.entity;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +13,19 @@ public class CategoryEntity {
     @Id
     @Column(name = "category_id", nullable = false)
     private Integer categoryId;
+    @Basic
+    @Column(name = "category_name", nullable = false, length = 50)
+    private String categoryName;
+    @Basic
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+    @OneToMany(mappedBy = "categoryByCategoryIdFk")
+    private Collection<AccountCategoryEntity> accountCategoriesByCategoryId;
+    @ManyToOne
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id", nullable = false)
+    private AccountEntity accountByAccountIdFk;
+    @OneToMany(mappedBy = "categoryByCategoryIdFk")
+    private Collection<ProductCategoryEntity> productCategoriesByCategoryId;
 
     public Integer getCategoryId() {
         return categoryId;
@@ -21,10 +35,6 @@ public class CategoryEntity {
         this.categoryId = categoryId;
     }
 
-    @Basic
-    @Column(name = "category_name", nullable = false, length = 50)
-    private String categoryName;
-
     public String getCategoryName() {
         return categoryName;
     }
@@ -32,10 +42,6 @@ public class CategoryEntity {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
-    @Basic
-    @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
 
     public Timestamp getCreatedAt() {
         return createdAt;
@@ -56,5 +62,29 @@ public class CategoryEntity {
     @Override
     public int hashCode() {
         return Objects.hash(categoryId, categoryName, createdAt);
+    }
+
+    public Collection<AccountCategoryEntity> getAccountCategoriesByCategoryId() {
+        return accountCategoriesByCategoryId;
+    }
+
+    public void setAccountCategoriesByCategoryId(Collection<AccountCategoryEntity> accountCategoriesByCategoryId) {
+        this.accountCategoriesByCategoryId = accountCategoriesByCategoryId;
+    }
+
+    public AccountEntity getAccountByAccountIdFk() {
+        return accountByAccountIdFk;
+    }
+
+    public void setAccountByAccountIdFk(AccountEntity accountByAccountIdFk) {
+        this.accountByAccountIdFk = accountByAccountIdFk;
+    }
+
+    public Collection<ProductCategoryEntity> getProductCategoriesByCategoryId() {
+        return productCategoriesByCategoryId;
+    }
+
+    public void setProductCategoriesByCategoryId(Collection<ProductCategoryEntity> productCategoriesByCategoryId) {
+        this.productCategoriesByCategoryId = productCategoriesByCategoryId;
     }
 }

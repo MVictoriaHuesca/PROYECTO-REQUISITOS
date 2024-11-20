@@ -12,6 +12,23 @@ public class ProductAttributeEntity {
     @Id
     @Column(name = "attribute_id_fk", nullable = false)
     private Integer attributeIdFk;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "product_id_fk", nullable = false)
+    private Integer productIdFk;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "account_id_fk", nullable = false)
+    private Integer accountIdFk;
+    @ManyToOne
+    @JoinColumn(name = "attribute_id_fk", referencedColumnName = "attribute_id", nullable = false)
+    private AttributeEntity attributeByAttributeIdFk;
+    @ManyToOne
+    @JoinColumn(name = "product_id_fk", referencedColumnName = "product_id", nullable = false)
+    private ProductEntity productByProductIdFk;
+    @ManyToOne
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id", nullable = false)
+    private AccountEntity accountByAccountIdFk;
 
     public Integer getAttributeIdFk() {
         return attributeIdFk;
@@ -21,11 +38,6 @@ public class ProductAttributeEntity {
         this.attributeIdFk = attributeIdFk;
     }
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "product_id_fk", nullable = false)
-    private Integer productIdFk;
-
     public Integer getProductIdFk() {
         return productIdFk;
     }
@@ -33,11 +45,6 @@ public class ProductAttributeEntity {
     public void setProductIdFk(Integer productIdFk) {
         this.productIdFk = productIdFk;
     }
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "account_id_fk", nullable = false)
-    private Integer accountIdFk;
 
     public Integer getAccountIdFk() {
         return accountIdFk;
@@ -58,5 +65,29 @@ public class ProductAttributeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(attributeIdFk, productIdFk, accountIdFk);
+    }
+
+    public AttributeEntity getAttributeByAttributeIdFk() {
+        return attributeByAttributeIdFk;
+    }
+
+    public void setAttributeByAttributeIdFk(AttributeEntity attributeByAttributeIdFk) {
+        this.attributeByAttributeIdFk = attributeByAttributeIdFk;
+    }
+
+    public ProductEntity getProductByProductIdFk() {
+        return productByProductIdFk;
+    }
+
+    public void setProductByProductIdFk(ProductEntity productByProductIdFk) {
+        this.productByProductIdFk = productByProductIdFk;
+    }
+
+    public AccountEntity getAccountByAccountIdFk() {
+        return accountByAccountIdFk;
+    }
+
+    public void setAccountByAccountIdFk(AccountEntity accountByAccountIdFk) {
+        this.accountByAccountIdFk = accountByAccountIdFk;
     }
 }

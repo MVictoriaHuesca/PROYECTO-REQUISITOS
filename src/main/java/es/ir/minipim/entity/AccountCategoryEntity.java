@@ -12,6 +12,16 @@ public class AccountCategoryEntity {
     @Id
     @Column(name = "account_id_fk", nullable = false)
     private Integer accountIdFk;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "category_id_fk", nullable = false)
+    private Integer categoryIdFk;
+    @ManyToOne
+    @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id", nullable = false)
+    private AccountEntity accountByAccountIdFk;
+    @ManyToOne
+    @JoinColumn(name = "category_id_fk", referencedColumnName = "category_id", nullable = false)
+    private CategoryEntity categoryByCategoryIdFk;
 
     public Integer getAccountIdFk() {
         return accountIdFk;
@@ -20,11 +30,6 @@ public class AccountCategoryEntity {
     public void setAccountIdFk(Integer accountIdFk) {
         this.accountIdFk = accountIdFk;
     }
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "category_id_fk", nullable = false)
-    private Integer categoryIdFk;
 
     public Integer getCategoryIdFk() {
         return categoryIdFk;
@@ -45,5 +50,21 @@ public class AccountCategoryEntity {
     @Override
     public int hashCode() {
         return Objects.hash(accountIdFk, categoryIdFk);
+    }
+
+    public AccountEntity getAccountByAccountIdFk() {
+        return accountByAccountIdFk;
+    }
+
+    public void setAccountByAccountIdFk(AccountEntity accountByAccountIdFk) {
+        this.accountByAccountIdFk = accountByAccountIdFk;
+    }
+
+    public CategoryEntity getCategoryByCategoryIdFk() {
+        return categoryByCategoryIdFk;
+    }
+
+    public void setCategoryByCategoryIdFk(CategoryEntity categoryByCategoryIdFk) {
+        this.categoryByCategoryIdFk = categoryByCategoryIdFk;
     }
 }
