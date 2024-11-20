@@ -15,9 +15,9 @@ public class LoginController extends BaseController {
     @Autowired
     protected AccountRepository accountRepository;
     @GetMapping("/")
-    public String doLogin(HttpSession session, Model model) {
-        AccountDto account = this.accountRepository.findById(1).get().toDto();
-        session.setAttribute("account", account);
-        return "/home";    //ESTO ES ASÍ HASTA QUE IMPLEMENTEMOS EL LOGIN BIEN
+    public String doLogin(HttpSession session) {
+        AccountEntity account = this.accountRepository.findById(1).orElse(null);
+        session.setAttribute("account", account.toDto().getAccountId());
+        return "redirect:/home/";    //ESTO ES ASÍ HASTA QUE IMPLEMENTEMOS EL LOGIN BIEN
     }
 }

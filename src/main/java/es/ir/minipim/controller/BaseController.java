@@ -6,6 +6,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class BaseController {
     protected boolean estaAutenticado(HttpSession session) {
-        return session.getAttribute("usuario") != null;
+        return session.getAttribute("account") != null;
     }
 }
