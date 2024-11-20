@@ -1,14 +1,52 @@
-.mynavbar{
+/* Estilo general para la barra de navegación */
+.mynavbar {
     width: 100%;
     height: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px 64px
+    padding: 30px 64px;
 }
 
-.elements-container {
+/* Contenedor de los nav-links (ahora agrupados horizontalmente) */
+.nav-links-container {
+    background-color: #f5f5f5; /* Fondo gris claro */
+    border: 2px solid #000; /* Marco negro */
+    border-radius: 8px; /* Esquinas redondeadas */
+    display: flex; /* Alinea los enlaces horizontalmente */
+    padding: 5px; /* Espaciado interno para los enlaces */
+    gap: 5px; /* Espaciado entre los enlaces */
+}
+
+/* Estilo de los enlaces */
+.nav-link {
+    color: black; /* Texto negro */
+    text-decoration: none; /* Elimina el subrayado */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 1.1em; /* Ajusta el tamaño del texto */
+}
+
+/* Efecto al pasar el ratón sobre los enlaces */
+.nav-link:hover {
+    text-decoration: underline; /* Subraya el enlace */
+}
+
+/* Estilo del perfil en la barra de navegación */
+.container-perfil {
     display: flex;
-    flex-direction: row;
     align-items: center;
+    gap: 8px; /* Espacio entre el ícono y el nombre */
+}
+
+.container-perfil p.username {
+    margin: 0;
+    color: #000; /* Texto negro */
+    font-weight: bold;
+}
+
+/* Estilo del logo */
+.navbar-brand img {
+    max-height: 60px; /* Ajusta el tamaño del logo */
+    height: auto;
+    width: auto;
 }

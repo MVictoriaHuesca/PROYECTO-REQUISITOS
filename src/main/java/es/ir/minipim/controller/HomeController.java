@@ -26,5 +26,6 @@ public class HomeController extends BaseController{
         AccountEntity account = this.accountRepository.findById(id).orElse(null);
         model.addAttribute("account", account.toDto());
         return "home";
+
     }
 }

@@ -16,12 +16,12 @@
     <a class="navbar-brand" href="#">
         <img src="/Images/logo.png" alt="Logo" width="254.4px" height="40px">
     </a>
-    <div class="elements-container">
+    <div class="nav-links-container">
         <a class="nav-link" href="/Dashboard">Dashboard</a>
-        <a class="nav-link" href="/Products">Products</a>
+        <a class="nav-link" href="/products/">Products</a>
         <a class="nav-link" href="/Assets">Assets</a>
-        <a class="nav-link" href="/Categories">Categories</a>
-        <a class="nav-link" href="/Attributes">Attributes</a>
+        <a class="nav-link" href="/categories/">Categories</a>
+        <a class="nav-link" href="/attributes/">Attributes</a>
         <a class="nav-link" href="/Relationships">Relationships</a>
     </div>
     <div class="container-perfil">
