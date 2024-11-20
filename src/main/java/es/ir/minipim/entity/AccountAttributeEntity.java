@@ -1,22 +1,20 @@
 package es.ir.minipim.entity;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public class AccountAttributesEntityPK implements Serializable {
-    @Column(name = "account_id_fk", nullable = false)
-    @Id
+@Entity
+@jakarta.persistence.Table(name = "account_attribute", schema = "grupo05DB", catalog = "")
+@jakarta.persistence.IdClass(es.ir.minipim.entity.AccountAttributeEntityPK.class)
+public class AccountAttributeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @jakarta.persistence.Column(name = "account_id_fk", nullable = false)
     private Integer accountIdFk;
-    @Column(name = "attribute_id_fk", nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer attributeIdFk;
 
     public Integer getAccountIdFk() {
         return accountIdFk;
@@ -25,6 +23,11 @@ public class AccountAttributesEntityPK implements Serializable {
     public void setAccountIdFk(Integer accountIdFk) {
         this.accountIdFk = accountIdFk;
     }
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @jakarta.persistence.Column(name = "attribute_id_fk", nullable = false)
+    private Integer attributeIdFk;
 
     public Integer getAttributeIdFk() {
         return attributeIdFk;
@@ -38,7 +41,7 @@ public class AccountAttributesEntityPK implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountAttributesEntityPK that = (AccountAttributesEntityPK) o;
+        AccountAttributeEntity that = (AccountAttributeEntity) o;
         return Objects.equals(accountIdFk, that.accountIdFk) && Objects.equals(attributeIdFk, that.attributeIdFk);
     }
 
