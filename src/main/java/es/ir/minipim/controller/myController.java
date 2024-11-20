@@ -22,7 +22,7 @@ public class myController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<AccountsEntity> accounts = accountRepository.findAll();
+        List<AccountEntity> accounts = accountRepository.findAll();
         model.addAttribute("accounts", accounts);
         return "index";
     }
