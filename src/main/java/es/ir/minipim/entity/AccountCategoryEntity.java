@@ -1,19 +1,16 @@
 package es.ir.minipim.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
-@jakarta.persistence.Table(name = "account_category", schema = "grupo05DB", catalog = "")
-@jakarta.persistence.IdClass(es.ir.minipim.entity.AccountCategoryEntityPK.class)
+@Table(name = "account_category", schema = "grupo05DB", catalog = "")
+@IdClass(AccountCategoryEntityPK.class)
 public class AccountCategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @jakarta.persistence.Column(name = "account_id_fk", nullable = false)
+    @Column(name = "account_id_fk", nullable = false)
     private Integer accountIdFk;
 
     public Integer getAccountIdFk() {
@@ -26,7 +23,7 @@ public class AccountCategoryEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @jakarta.persistence.Column(name = "category_id_fk", nullable = false)
+    @Column(name = "category_id_fk", nullable = false)
     private Integer categoryIdFk;
 
     public Integer getCategoryIdFk() {
