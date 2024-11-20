@@ -19,6 +19,9 @@ public class HomeController extends BaseController{
     protected AccountRepository accountRepository;
     @GetMapping("/")
     public String doHome(HttpSession session, Model model) {
+        if(session.getAttribute("account") == null) {
+            return "redirect:/";
+        }
         Integer id = (Integer) session.getAttribute("account");
         AccountEntity account = this.accountRepository.findById(id).orElse(null);
         model.addAttribute("account", account.toDto());
