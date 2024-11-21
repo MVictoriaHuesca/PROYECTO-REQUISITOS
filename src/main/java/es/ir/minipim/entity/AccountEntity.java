@@ -100,20 +100,12 @@ public class AccountEntity {
         return accountAttributesByAccountId;
     }
 
-    public void setAccountAttributesByAccountId(Collection<AccountAttributeEntity> accountAttributesByAccountId) {
-        this.accountAttributesByAccountId = accountAttributesByAccountId;
-    }
-
     public void setAccountAttributesByAccountId(List<AccountAttributeEntity> accountAttributesByAccountId) {
         this.accountAttributesByAccountId = accountAttributesByAccountId;
     }
 
     public List<AccountCategoryEntity> getAccountCategoriesByAccountId() {
         return accountCategoriesByAccountId;
-    }
-
-    public void setAccountCategoriesByAccountId(Collection<AccountCategoryEntity> accountCategoriesByAccountId) {
-        this.accountCategoriesByAccountId = accountCategoriesByAccountId;
     }
 
     public void setAccountCategoriesByAccountId(List<AccountCategoryEntity> accountCategoriesByAccountId) {
@@ -124,20 +116,12 @@ public class AccountEntity {
         return accountProductsByAccountId;
     }
 
-    public void setAccountProductsByAccountId(Collection<AccountProductEntity> accountProductsByAccountId) {
-        this.accountProductsByAccountId = accountProductsByAccountId;
-    }
-
     public void setAccountProductsByAccountId(List<AccountProductEntity> accountProductsByAccountId) {
         this.accountProductsByAccountId = accountProductsByAccountId;
     }
 
     public List<AttributeEntity> getAttributesByAccountId() {
         return attributesByAccountId;
-    }
-
-    public void setAttributesByAccountId(Collection<AttributeEntity> attributesByAccountId) {
-        this.attributesByAccountId = attributesByAccountId;
     }
 
     public void setAttributesByAccountId(List<AttributeEntity> attributesByAccountId) {
@@ -148,20 +132,12 @@ public class AccountEntity {
         return categoriesByAccountId;
     }
 
-    public void setCategoriesByAccountId(Collection<CategoryEntity> categoriesByAccountId) {
-        this.categoriesByAccountId = categoriesByAccountId;
-    }
-
     public void setCategoriesByAccountId(List<CategoryEntity> categoriesByAccountId) {
         this.categoriesByAccountId = categoriesByAccountId;
     }
 
     public List<ProductAttributeEntity> getProductAttributesByAccountId() {
         return productAttributesByAccountId;
-    }
-
-    public void setProductAttributesByAccountId(Collection<ProductAttributeEntity> productAttributesByAccountId) {
-        this.productAttributesByAccountId = productAttributesByAccountId;
     }
 
     public void setProductAttributesByAccountId(List<ProductAttributeEntity> productAttributesByAccountId) {
@@ -172,9 +148,6 @@ public class AccountEntity {
         return productCategoriesByAccountId;
     }
 
-    public void setProductCategoriesByAccountId(Collection<ProductCategoryEntity> productCategoriesByAccountId) {
-        this.productCategoriesByAccountId = productCategoriesByAccountId;
-    }
 
     public void setProductCategoriesByAccountId(List<ProductCategoryEntity> productCategoriesByAccountId) {
         this.productCategoriesByAccountId = productCategoriesByAccountId;
