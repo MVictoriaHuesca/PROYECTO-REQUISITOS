@@ -39,15 +39,16 @@ public class ProductController {
     }
 
     @GetMapping("/details")
-    public String doDetails(@RequestParam("id") Integer id, Model model, HttpSession session){
+    public String doDetails(@RequestParam("id") Integer id, Model model){
         ProductEntity producto = this.productRepository.findById(id).get();
         List<ProductAttributeEntity> productAttributes = (List<ProductAttributeEntity>) producto.getProductAttributesByProductId();
         List<AttributeEntity> attributes = new ArrayList<>();
-        for(ProductAttributeEntity productAttribute : productAttributes){
-            AttributeEntity attribute = productAttribute.getAttributeByAttributeIdFk();
-            attributes.add(attribute);
+        for(ProductAttributeEntity p : productAttributes){
+            attributes.add(p.getAttributeByAttributeIdFk());
         }
         model.addAttribute("producto", producto);
+        model.addAttribute("productAttributes", productAttributes);
+        model.addAttribute("attributes", attributes);
         return "consultarProducto";
     }
 
