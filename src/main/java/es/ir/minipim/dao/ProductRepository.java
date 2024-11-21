@@ -10,4 +10,6 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
 
+    @Query("select p from ProductEntity p order by p.productId desc limit 1")
+    public ProductEntity ultimoId();
 }

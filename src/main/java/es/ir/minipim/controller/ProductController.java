@@ -1,20 +1,18 @@
 package es.ir.minipim.controller;
 
-import es.ir.minipim.dao.AccountAttributeRepository;
-import es.ir.minipim.dao.AttributeRepository;
-import es.ir.minipim.dao.ProductRepository;
+import es.ir.minipim.dao.*;
+import es.ir.minipim.dto.AccountDto;
 import es.ir.minipim.entity.*;
+import es.ir.minipim.ui.Product;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/products")
@@ -24,14 +22,26 @@ public class ProductController {
     protected ProductRepository productRepository;
 
     @Autowired
-    protected AttributeRepository attributeRepository;
+    protected AccountProductRepository accountProductRepository;
 
     @Autowired
-    protected AccountAttributeRepository accountAttributeRepository;
+    protected AccountRepository accountRepository;
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
-        List<ProductEntity> lista = this.productRepository.findAll();
+        if(session.getAttribute("account") == null) {
+            return "redirect:/";
+        }
+        // Obtener lista de productos de un usuario
+        Integer idAccount = (Integer) session.getAttribute("account");
+        AccountEntity account = this.accountRepository.findById(idAccount).get();
+        List<AccountProductEntity> productsAccount= account.getAccountProductsByAccountId();
+        List<ProductEntity> lista = new ArrayList<>();
+        for(AccountProductEntity p : productsAccount){
+            lista.add(p.getProductByProductIdFk());
+        }
+
+        //List<ProductEntity> lista = this.productRepository.findAll();
         model.addAttribute("lista", lista);
         return "listadoProductos";
     }
@@ -39,7 +49,6 @@ public class ProductController {
     @GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
         ProductEntity producto = this.productRepository.findById(id).get();
-
         // Atributos
         List<ProductAttributeEntity> productAttributes = (List<ProductAttributeEntity>) producto.getProductAttributesByProductId();
         List<AttributeEntity> attributes = new ArrayList<>();
@@ -65,9 +74,31 @@ public class ProductController {
 
     @GetMapping("/new")
     public String doNuevo(Model model, HttpSession session){
-        ProductEntity producto = new ProductEntity();
-        model.addAttribute("producto", producto);
-        return "nuevoProducto";
+        Product producto = new Product();
+        producto.setId(-1);
+        producto.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        model.addAttribute("product", producto);
+        return "editarProducto";
+    }
+
+    @PostMapping("/save")
+    public String doGuardar(@ModelAttribute("product") Product product, HttpSession session){
+        ProductEntity producto = this.productRepository.findById(product.getId()).orElse(new ProductEntity());
+
+        producto.setLabel(product.getLabel());
+        producto.setSku(product.getSKU());
+        producto.setGtin(product.getGTIN());
+        producto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+
+        this.productRepository.save(producto);
+        ProductEntity productoGuardado = this.productRepository.ultimoId();
+
+        AccountProductEntity accountProduct = new AccountProductEntity();
+        accountProduct.setAccountIdFk((Integer) session.getAttribute("account"));
+        accountProduct.setProductIdFk(productoGuardado.getProductId());
+        this.accountProductRepository.save(accountProduct);
+
+        return "redirect:/products/";
     }
 
     @GetMapping("/delete")

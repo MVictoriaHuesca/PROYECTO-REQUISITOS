@@ -48,6 +48,26 @@
       transform: scale(1.2); /* Aumenta el tamaño de la imagen */
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Agrega una sombra alrededor */
     }
+    .add-product {
+      margin: 30px auto; /* Agrega margen superior e inferior */
+      text-align: center; /* Centra el botón horizontalmente */
+    }
+    .add-product a {
+      display: inline-block;
+      padding: 12px 20px; /* Espaciado interno */
+      font-size: 16px; /* Tamaño de la fuente */
+      font-weight: bold; /* Texto en negrita */
+      color: white; /* Color del texto */
+      background-color: #007BFF; /* Color azul para el fondo */
+      border-radius: 5px; /* Bordes redondeados */
+      text-decoration: none; /* Elimina el subrayado */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra alrededor */
+      transition: all 0.3s ease; /* Suaviza los cambios al hacer hover */
+    }
+    .add-product a:hover {
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Incrementa la sombra */
+      transform: translateY(-2px); /* Mueve el botón ligeramente hacia arriba */
+    }
   </style>
 </head>
 <body>
@@ -62,9 +82,9 @@
     <th>Label</th>
     <th>GTIN</th>
     <th>Date</th>
-    <th>Consultar</th>
-    <th>Editar</th>
-    <th>Eliminar</th>
+    <th>Details</th>
+    <th>Edit</th>
+    <th>Delete</th>
   </tr>
   </thead>
   <tbody>
@@ -76,7 +96,7 @@
     <td><%= producto.getLabel() %></td>
     <td><%= producto.getGtin() %></td>
     <td><%= producto.getCreatedAt() %></td>
-    <td><a href="/products/details?id=<%= producto.getProductId() %>">Consultar</a></td>
+    <td><a href="/products/details?id=<%= producto.getProductId() %>">Details</a></td>
     <td class="action-icons">
       <a href="/products/edit?id=<%= producto.getProductId() %>">
         <img src="/Images/editar.png" alt="Editar" title="Editar" />
@@ -95,8 +115,8 @@
 </table>
 
 <div class="add-product">
-  <a href="/products/new" style="color: white;">
-    Añadir Nuevo Producto
+  <a href="/products/new">
+    Add New Product
   </a>
 </div>
 </body>
