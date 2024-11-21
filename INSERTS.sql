@@ -66,13 +66,13 @@ VALUES
     (3, 4); -- User3 tiene 'T-Shirt'
 
 -- Insertar relación entre productos y atributos (limitado por cuentas)
-INSERT INTO product_attribute (attribute_id_fk, product_id_fk, account_id_fk)
+INSERT INTO product_attribute (attribute_id_fk, product_id_fk, account_id_fk, value)
 VALUES
-    (1, 1, 1), -- Atributo 'Color' de User1 aplicado a 'Smartphone'
-    (2, 1, 1), -- Atributo 'Size' de User1 aplicado a 'Smartphone'
-    (2, 2, 1), -- Atributo 'Size' de User1 aplicado a 'Washing Machine'
-    (3, 3, 2), -- Atributo 'Weight' de User2 aplicado a 'Sofa'
-    (4, 4, 3); -- Atributo 'Material' de User3 aplicado a 'T-Shirt'
+    (1, 1, 1, 'blue'), -- Atributo 'Color' de User1 aplicado a 'Smartphone'
+    (2, 1, 1, '10'), -- Atributo 'Size' de User1 aplicado a 'Smartphone'
+    (2, 2, 1, 'grande'), -- Atributo 'Size' de User1 aplicado a 'Washing Machine'
+    (3, 3, 2, '55'), -- Atributo 'Weight' de User2 aplicado a 'Sofa'
+    (4, 4, 3, 'algodon'); -- Atributo 'Material' de User3 aplicado a 'T-Shirt'
 
 -- Insertar relación entre productos y categorías (limitado por cuentas)
 INSERT INTO product_category (category_id_fk, product_id_fk, account_id_fk)
