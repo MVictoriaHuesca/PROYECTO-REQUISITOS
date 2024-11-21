@@ -29,6 +29,9 @@ public class ProductAttributeEntity {
     @ManyToOne
     @JoinColumn(name = "account_id_fk", referencedColumnName = "account_id", nullable = false)
     private AccountEntity accountByAccountIdFk;
+    @Basic
+    @Column(name = "value", nullable = true, length = 50)
+    private String value;
 
     public Integer getAttributeIdFk() {
         return attributeIdFk;
@@ -89,5 +92,13 @@ public class ProductAttributeEntity {
 
     public void setAccountByAccountIdFk(AccountEntity accountByAccountIdFk) {
         this.accountByAccountIdFk = accountByAccountIdFk;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

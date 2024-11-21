@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Objects;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import es.ir.minipim.entity.AttributeType;
 
 @Entity
 @Table(name = "attribute", schema = "grupo05DB", catalog = "")
@@ -18,8 +19,9 @@ public class AttributeEntity {
     @Basic
     @Column(name = "attribute_name", nullable = false, length = 50)
     private String attributeName;
+    @Basic
     @Enumerated(EnumType.STRING)
-    @Column(name = "attribute_type", nullable = false)
+    @Column(name = "attribute_type", nullable = false, precision = 0)
     private AttributeType attributeType;
     @Basic
     @Column(name = "created_at", nullable = false)
