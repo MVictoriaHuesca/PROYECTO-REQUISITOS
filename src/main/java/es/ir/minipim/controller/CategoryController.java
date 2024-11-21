@@ -47,7 +47,7 @@ public class CategoryController {
         return "redirect:/categories/";    //"newCategory"
     }
 
-    @GetMapping("/details")
+    /*@GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
         CategoryEntity categoria = this.categoryRepository.findById(id).get();
         List<CategoryEntity> CategoryAttributes = (List<CategoryEntity>) categoria.getProductCategoriesByCategoryId();
@@ -59,5 +59,5 @@ public class CategoryController {
         model.addAttribute("productAttributes", productAttributes);
         model.addAttribute("attributes", attributes);
         return "consultarProducto";
-    }
+    }*/
 }

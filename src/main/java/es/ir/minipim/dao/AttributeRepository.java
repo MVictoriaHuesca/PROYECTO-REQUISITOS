@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface AttributeRepository extends JpaRepository <AttributeEntity, Integer> {
     @Query("select a from AttributeEntity a where a.accountByAccountIdFk.accountId = :id")
-    public List<>
+    public List<AttributeEntity> listarAtributosCuenta (@Param("id") Integer id);
 }

@@ -34,6 +34,17 @@
             font-weight: bold; /* Texto en negrita en las cabeceras */
         }
 
+        /* Estilo para la columna "Name" (Nombre) en negro */
+        td a {
+            color: black; /* Poner en negro el texto del atributo "Name" */
+            text-decoration: none; /* Elimina el subrayado por defecto */
+        }
+
+        /* Estilo para la columna "Name" en hover */
+        td a:hover {
+            text-decoration: underline; /* Subrayado al pasar el mouse sobre el nombre */
+        }
+
         /* Contenedor para el botón de añadir */
         .add-button-container {
             display: flex;
@@ -68,6 +79,14 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Agrega una sombra alrededor */
         }
     </style>
+    <script>
+        // Función para confirmar la eliminación de un atributo
+        function confirmarEliminacion(url) {
+            if (confirm("Are you sure you want to remove this attribute?")) {
+                window.location.href = url; // Redirige a la URL de eliminación
+            }
+        }
+    </script>
 </head>
 <body>
 <jsp:include page="cabecera.jsp"/>
@@ -91,16 +110,21 @@
     %>
     <tr>
         <td><%=attribute.getAttributeType()%></td>
-        <td><%=attribute.getAttributeName()%></td>
-        <td><%=attribute.getCreatedAt()%></td>
         <td>
-            <a href="/attributes/aditar?id=<%= attribute.getAttributeId() %>">
+            <a href="/attributes/details?id=<%= attribute.getAttributeId() %>">
+                <%= attribute.getAttributeName() %>
+            </a>
+        </td>
+        <td><%= new java.text.SimpleDateFormat("dd-MM-yyyy").format(attribute.getCreatedAt()) %></td>
+        <td>
+            <a href="/attributes/editar?id=<%= attribute.getAttributeId() %>">
                 <img src="/Images/editar.png" alt="Editar" />
             </a>
         </td>
         <td>
-            <a href="/attributes/borrar?id=<%= attribute.getAttributeId() %>">
-                <img src="/Images/eliminar.png" alt="Eliminar" />
+            <a href="javascript:void(0);"
+               onclick="confirmarEliminacion('/attributes/borrar?id=<%= attribute.getAttributeId() %>')">
+                <img src="/Images/eliminar.png" alt="Eliminar" width="20px" height="20px" />
             </a>
         </td>
     </tr>
