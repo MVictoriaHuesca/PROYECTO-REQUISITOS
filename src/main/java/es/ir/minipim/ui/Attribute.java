@@ -6,6 +6,7 @@ public class Attribute {
     private String name;
     private String type;
     private Date date;
+    private Integer idUser;
 
     public Attribute() {
     }
@@ -29,5 +30,10 @@ public class Attribute {
     }
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Integer getIdUser(){ return  idUser;}
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 }

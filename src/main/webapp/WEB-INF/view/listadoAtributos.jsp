@@ -34,20 +34,36 @@
             font-weight: bold; /* Texto en negrita en las cabeceras */
         }
 
-        /* Estilo de los enlaces dentro de las celdas */
-        a {
-            text-decoration: none; /* Elimina el subrayado */
+        /* Contenedor para el botón de añadir */
+        .add-button-container {
+            display: flex;
+            justify-content: flex-end; /* Coloca el botón a la derecha */
+            margin: 20px 10%; /* Margen superior e inferior y margen lateral para alinearlo con la tabla */
         }
 
-        /* Estilo de las imágenes en las celdas */
-        img {
+        /* Estilo de la imagen del botón añadir */
+        .add-button img {
+            width: 40px; /* Ancho más grande para destacar */
+            height: 40px; /* Altura más grande para destacar */
+            cursor: pointer; /* Cambia el cursor a un puntero */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Suaviza los efectos */
+        }
+
+        /* Efecto hover para la imagen del botón añadir */
+        .add-button img:hover {
+            transform: scale(1.2); /* Aumenta ligeramente el tamaño */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Agrega una sombra */
+        }
+
+        /* Estilo de los enlaces dentro de las celdas */
+        a img {
             width: 20px; /* Ancho de las imágenes */
             height: 20px; /* Altura de las imágenes */
             transition: transform 0.2s ease, box-shadow 0.2s ease; /* Suaviza el efecto */
         }
 
-        /* Efecto hover en las imágenes */
-        img:hover {
+        /* Efecto hover en las imágenes de las celdas */
+        a img:hover {
             transform: scale(1.2); /* Aumenta el tamaño de la imagen */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Agrega una sombra alrededor */
         }
@@ -56,10 +72,12 @@
 <body>
 <jsp:include page="cabecera.jsp"/>
 
-<a href="/attributes//crear"></a>
-<a href="/attributes/crear">
-    <img src="/Images/ayadir.png" alt="Ayadir" />
-</a>
+<div class="add-button-container">
+    <a href="/attributes/crear" class="add-button">
+        <img src="/Images/ayadir.png" alt="Añadir" />
+    </a>
+</div>
+
 <table>
     <tr>
         <th>Type</th>

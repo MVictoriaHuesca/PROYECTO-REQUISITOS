@@ -9,4 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AttributeRepository extends JpaRepository <AttributeEntity, Integer> {
+    @Query("select a from AttributeEntity a where a.accountByAccountIdFk.accountId = :id")
+    public List<>
 }
