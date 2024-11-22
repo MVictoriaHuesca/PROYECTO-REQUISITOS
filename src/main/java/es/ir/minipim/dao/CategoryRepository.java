@@ -1,7 +1,7 @@
 package es.ir.minipim.dao;
 
-import es.ir.minipim.entity2.CategoryEntity;
+import es.ir.minipim.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Integer> {
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }

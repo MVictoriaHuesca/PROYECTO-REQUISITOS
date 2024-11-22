@@ -1,8 +1,8 @@
 package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.*;
-import es.ir.minipim.entity2.*;
-import es.ir.minipim.ui.Product;
+import es.ir.minipim.entity.*;
+import es.ir.minipim.ui.ProductDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,32 +33,28 @@ public class ProductController {
         }
         // Obtener lista de productos de un usuario
         Integer idAccount = (Integer) session.getAttribute("account");
-        AccountEntity account = this.accountRepository.findById(idAccount).get();
-        List<AccountProductEntity> productsAccount= account.getAccountProductsByAccountId();
-        List<ProductEntity> lista = new ArrayList<>();
-        for(AccountProductEntity p : productsAccount){
-            lista.add(p.getProductByProductIdFk());
-        }
+        Account account = this.accountRepository.findById(idAccount).get();
+        List<Product> lista = account.getProducts();
 
-        //List<ProductEntity> lista = this.productRepository.findAll();
+        //List<Product> lista = this.productRepository.findAll();
         model.addAttribute("lista", lista);
         return "listadoProductos";
     }
 
     @GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
-        ProductEntity producto = this.productRepository.findById(id).get();
+        ProductDTO producto = this.productRepository.findById(id).get();
         // Atributos
-        List<ProductAttributeEntity> productAttributes = (List<ProductAttributeEntity>) producto.getProductAttributesByProductId();
-        List<AttributeEntity> attributes = new ArrayList<>();
-        for(ProductAttributeEntity p : productAttributes){
+        List<ProductAttribute> productAttributes = (List<ProductAttribute>) producto.getProductAttributesByProductId();
+        List<Attribute> attributes = new ArrayList<>();
+        for(ProductAttribute p : productAttributes){
             attributes.add(p.getAttributeByAttributeIdFk());
         }
 
         // Categorias
-        List<ProductCategoryEntity> productCategories = (List<ProductCategoryEntity>) producto.getProductCategoriesByProductId();
-        List<CategoryEntity> categories = new ArrayList<>();
-        for(ProductCategoryEntity p : productCategories){
+        List<ProductCategory> productCategories = (List<ProductCategory>) producto.getProductCategoriesByProductId();
+        List<Category> categories = new ArrayList<>();
+        for(ProductCategory p : productCategories){
             categories.add(p.getCategoryByCategoryIdFk());
         }
 
@@ -73,7 +69,7 @@ public class ProductController {
 
     @GetMapping("/new")
     public String doNuevo(Model model, HttpSession session){
-        Product producto = new Product();
+        ProductDTO producto = new ProductDTO();
         producto.setId(-1);
         producto.setCreationDate(new Timestamp(System.currentTimeMillis()));
         model.addAttribute("product", producto);
@@ -81,8 +77,8 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String doGuardar(@ModelAttribute("product") Product product, HttpSession session){
-        ProductEntity producto = this.productRepository.findById(product.getId()).orElse(new ProductEntity());
+    public String doGuardar(@ModelAttribute("product") ProductDTO product, HttpSession session){
+        ProductDTO producto = this.productRepository.findById(product.getId()).orElse(new ProductDTO());
 
         producto.setLabel(product.getLabel());
         producto.setSku(product.getSKU());
@@ -90,11 +86,11 @@ public class ProductController {
         producto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         this.productRepository.save(producto);
-        //ProductEntity productoGuardado = this.productRepository.ultimoId();
+        //Product productoGuardado = this.productRepository.ultimoId();
 
-        AccountEntity account = this.accountRepository.findById(1).get();
+        Account account = this.accountRepository.findById(1).get();
 
-        AccountProductEntity accountProduct = new AccountProductEntity();
+        AccountProduct accountProduct = new AccountProduct();
         accountProduct.setAccountIdFk(1);
         accountProduct.setProductIdFk(producto.getProductId());
         accountProduct.setProductByProductIdFk(producto);

@@ -2,14 +2,14 @@ package es.ir.minipim.ui;
 
 import java.sql.Timestamp;
 
-public class Product {
+public class ProductDTO {
     private Integer id;
     private String label;
     private String SKU;
     private Long GTIN;
     private Timestamp creationDate;
 
-    public Product() {
+    public ProductDTO() {
     }
 
     public Integer getId() {
