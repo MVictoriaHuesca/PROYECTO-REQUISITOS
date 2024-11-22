@@ -2,10 +2,8 @@ package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.AttributeRepository;
-import es.ir.minipim.entity.AccountEntity;
-import es.ir.minipim.entity.AttributeEntity;
-import es.ir.minipim.entity.AttributeType;
-import es.ir.minipim.entity.CategoryEntity;
+import es.ir.minipim.entity2.AttributeEntity;
+import es.ir.minipim.entity2.AttributeType;
 import es.ir.minipim.ui.Attribute;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

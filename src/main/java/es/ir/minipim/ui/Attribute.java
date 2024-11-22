@@ -1,10 +1,9 @@
 package es.ir.minipim.ui;
 
-import es.ir.minipim.entity.AccountEntity;
-import es.ir.minipim.entity.AttributeType;
+import es.ir.minipim.entity2.AccountEntity;
+import es.ir.minipim.entity2.AttributeType;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Attribute {
     private String name;

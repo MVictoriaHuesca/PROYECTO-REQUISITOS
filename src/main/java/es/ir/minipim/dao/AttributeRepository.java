@@ -1,7 +1,6 @@
 package es.ir.minipim.dao;
 
-import es.ir.minipim.entity.AccountAttributeEntity;
-import es.ir.minipim.entity.AttributeEntity;
+import es.ir.minipim.entity2.AttributeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

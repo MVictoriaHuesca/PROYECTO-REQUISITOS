@@ -1,4 +1,4 @@
-<%@ page import="es.ir.minipim.entity.CategoryEntity" %>
+<%@ page import="es.ir.minipim.entity2.CategoryEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%

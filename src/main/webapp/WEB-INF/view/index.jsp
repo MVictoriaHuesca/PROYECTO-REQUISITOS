@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page import="es.ir.minipim.entity.AccountEntity" %>
+<%@ page import="es.ir.minipim.entity2.AccountEntity" %>
 <%@ page import="java.util.List" %>
 <html>
 <head>

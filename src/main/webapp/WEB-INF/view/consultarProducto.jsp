@@ -1,6 +1,6 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.ir.minipim.entity.*" %>
+<%@ page import="es.ir.minipim.entity2.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     ProductEntity producto = (ProductEntity) request.getAttribute("producto");

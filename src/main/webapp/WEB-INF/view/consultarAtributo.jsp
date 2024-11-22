@@ -1,4 +1,4 @@
-<%@ page import="es.ir.minipim.entity.AttributeEntity" %>
+<%@ page import="es.ir.minipim.entity2.AttributeEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     AttributeEntity attribute = (AttributeEntity) request.getAttribute("attribute");

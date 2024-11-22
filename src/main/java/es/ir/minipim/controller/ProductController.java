@@ -1,8 +1,7 @@
 package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.*;
-import es.ir.minipim.dto.AccountDto;
-import es.ir.minipim.entity.*;
+import es.ir.minipim.entity2.*;
 import es.ir.minipim.ui.Product;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,12 +90,26 @@ public class ProductController {
         producto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         this.productRepository.save(producto);
-        ProductEntity productoGuardado = this.productRepository.ultimoId();
+        //ProductEntity productoGuardado = this.productRepository.ultimoId();
+
+        AccountEntity account = this.accountRepository.findById(1).get();
 
         AccountProductEntity accountProduct = new AccountProductEntity();
-        accountProduct.setAccountIdFk((Integer) session.getAttribute("account"));
-        accountProduct.setProductIdFk(productoGuardado.getProductId());
+        accountProduct.setAccountIdFk(1);
+        accountProduct.setProductIdFk(producto.getProductId());
+        accountProduct.setProductByProductIdFk(producto);
+        accountProduct.setAccountByAccountIdFk(account);
+
+        producto.getAccountProductsByProductId().add(accountProduct);
+        account.getAccountProductsByAccountId().add(accountProduct);
+
         this.accountProductRepository.save(accountProduct);
+
+        this.productRepository.save(producto);
+        this.accountRepository.save(account);
+
+
+
 
         return "redirect:/products/";
     }

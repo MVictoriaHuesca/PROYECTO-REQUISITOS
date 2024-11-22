@@ -1,8 +1,7 @@
 package es.ir.minipim.dto;
-import es.ir.minipim.entity.*;
+import es.ir.minipim.entity2.*;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.List;
 
 @Data

@@ -1,10 +1,7 @@
 package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.CategoryRepository;
-import es.ir.minipim.entity.AttributeEntity;
-import es.ir.minipim.entity.CategoryEntity;
-import es.ir.minipim.entity.ProductAttributeEntity;
-import es.ir.minipim.entity.ProductEntity;
+import es.ir.minipim.entity2.CategoryEntity;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
