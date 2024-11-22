@@ -1,4 +1,3 @@
-<%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.ir.minipim.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -112,7 +111,7 @@
             <%
                 for (Attribute att : attributes) {
                     for (ProductAttribute pa : productAttributes) {
-                        if (pa.getAttributeByAttributeIdFk().getAttributeId().equals(att.getAttributeId())) {
+                        if (pa.getAttributeIdFk().getId().equals(att.getId())) {
             %>
             <li><strong><%= att.getAttributeName() %>:</strong> <%= pa.getValue() %></li>
             <%
@@ -129,7 +128,7 @@
             <%
                 for (Category cat : categories) {
                     for (ProductCategory pc : productCategories) {
-                        if (pc.getCategoryByCategoryIdFk().getCategoryId().equals(cat.getCategoryId())) {
+                        if (pc.getCategoryIdFk().getId().equals(cat.getId())) {
             %>
             <li><%= cat.getCategoryName() %></li>
             <%
