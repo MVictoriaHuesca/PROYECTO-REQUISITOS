@@ -1,11 +1,10 @@
 package es.ir.minipim.controller;
 
+import es.ir.minipim.dao.AccountAttributeRepository;
 import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.AttributeRepository;
 
-import es.ir.minipim.entity.Account;
-import es.ir.minipim.entity.Attribute;
-import es.ir.minipim.entity.AttributeType;
+import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.AttributeUI;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,8 @@ public class AttributeController {
     protected AttributeRepository attributeRepository;
     @Autowired
     protected AccountRepository accountRepository;
+    @Autowired
+    protected AccountAttributeRepository accountAttributeRepository;
 
     @GetMapping("/")
     public String doListar(Model model){
@@ -36,6 +37,10 @@ public class AttributeController {
 
     @GetMapping("/borrar")
     public String doBorrar (@RequestParam("id") Integer id) {
+        Attribute attribute = this.attributeRepository.findById(id).get();
+        List<AccountAttribute> accountAttribute = this.accountAttributeRepository.atributosDeCuenta(attribute);
+        this.accountAttributeRepository.deleteAll(accountAttribute);
+
         this.attributeRepository.deleteById(id);
 
         return "redirect:/attributes/";
@@ -44,9 +49,9 @@ public class AttributeController {
     @GetMapping("/crear")
     public String doNuevo (Model model) {
         Account account = this.accountRepository.findById(1).get();
-        if(account.getAttributes().size() >= 5){
+        /*if(account.getAttributes().size() >= 5){
             return "alerta";
-        }else {
+        }else {*/
 
             AttributeUI attribute = new AttributeUI();
             attribute.setIdAttribute(-1);
@@ -56,7 +61,7 @@ public class AttributeController {
             model.addAttribute("attributeTypes", AttributeType.values());
 
             return "atributo";
-        }
+
     }
 
     @PostMapping("/guardar")
@@ -69,12 +74,20 @@ public class AttributeController {
         attribute.setAttributeName(theAttribute.getName());
         attribute.setAttributeType(theAttribute.getType().toString());
         attribute.setCreatedAt(Instant.now());
-
-        //La fecha no hace falta ponerla porque se pone por defecto en la base de datos
         this.attributeRepository.save(attribute);
 
-        account.getAttributes().add(attribute);
-        this.accountRepository.save(account);
+        AccountAttribute accountAttribute = new AccountAttribute();
+        accountAttribute.setAccountIdFk(account);
+        accountAttribute.setAttributeIdFk(attribute);
+
+        AccountAttributeId accountAttributeId = new AccountAttributeId();
+        accountAttributeId.setAccountIdFk(account.getId());
+        accountAttributeId.setAttributeIdFk(attribute.getId());
+        accountAttribute.setId(accountAttributeId);
+
+        //account.getAttributes().add(attribute);
+        //this.accountRepository.save(account);
+
 
         return "redirect:/attributes/";
     }
