@@ -9,10 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AttributeRepository extends JpaRepository <AttributeEntity, Integer> {
-<<<<<<< HEAD
+
     @Query("select a from AttributeEntity a where a.accountByAccountIdFk.accountId = :id")
     public List<AttributeEntity> listarAtributosCuenta (@Param("id") Integer id);
-=======
 
->>>>>>> bdf975aaa23da3c9888052dcd3cd7100ace98502
 }
