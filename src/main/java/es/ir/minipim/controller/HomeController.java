@@ -22,7 +22,7 @@ public class HomeController extends BaseController{
         }
         Integer id = (Integer) session.getAttribute("account");
         Account account = this.accountRepository.findById(id).orElse(null);
-        model.addAttribute("account", account.toDto());
+        model.addAttribute("account", account);
         return "home";
 
     }
