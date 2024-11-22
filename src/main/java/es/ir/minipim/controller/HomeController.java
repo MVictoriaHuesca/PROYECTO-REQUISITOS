@@ -20,8 +20,7 @@ public class HomeController extends BaseController{
         if(session.getAttribute("account") == null) {
             return "redirect:/";
         }
-        Integer id = (Integer) session.getAttribute("account");
-        Account account = this.accountRepository.findById(id).orElse(null);
+        Account account = (Account) session.getAttribute("account");
         model.addAttribute("account", account);
         return "home";
 

@@ -1,8 +1,8 @@
-<%@ page import="es.ir.minipim.entity2.CategoryEntity" %>
+<%@ page import="es.ir.minipim.entity.Category" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<CategoryEntity> lista = (List<CategoryEntity>) request.getAttribute("lista");
+    List<Category> lista = (List<Category>) request.getAttribute("lista");
 %>
 <html>
 <head>
@@ -84,7 +84,7 @@
         <th>Eliminar</th>
     </tr>
         <%
-        for (CategoryEntity categoria : lista) {
+        for (Category categoria : lista) {
             int numeroProductos = categoria.getProductCategoriesByCategoryId() != null
                                   ? categoria.getProductCategoriesByCategoryId().size()
                                   : 0;

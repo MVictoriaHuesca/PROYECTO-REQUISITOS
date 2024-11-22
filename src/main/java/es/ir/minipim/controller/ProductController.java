@@ -33,8 +33,7 @@ public class ProductController {
             return "redirect:/";
         }
         // Obtener lista de productos de un usuario
-        Integer idAccount = (Integer) session.getAttribute("account");
-        Account account = this.accountRepository.findById(idAccount).get();
+        Account account = (Account) session.getAttribute("account");
         List<Product> lista = account.getProducts();
 
         //List<Product> lista = this.productRepository.findAll();

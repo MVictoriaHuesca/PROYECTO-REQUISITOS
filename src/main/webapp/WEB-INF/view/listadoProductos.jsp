@@ -1,8 +1,8 @@
-<%@ page import="es.ir.minipim.entity2.ProductEntity" %>
+<%@ page import="es.ir.minipim.entity.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  List<ProductEntity> lista = (List<ProductEntity>) request.getAttribute("lista");
+  List<Product> lista = (List<Product>) request.getAttribute("lista");
 %>
 <html>
 <head>
@@ -89,7 +89,7 @@
   </thead>
   <tbody>
   <%
-    for(ProductEntity producto: lista){
+    for(Product producto: lista){
   %>
   <tr>
     <td><%= producto.getSku() %></td>

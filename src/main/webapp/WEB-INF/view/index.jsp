@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@ page import="es.ir.minipim.entity2.AccountEntity" %>
+<%@ page import="es.ir.minipim.entity.Account" %>
 <%@ page import="java.util.List" %>
 <html>
 <head>
@@ -30,8 +30,8 @@
     </thead>
     <tbody>
     <%
-        List<AccountEntity> accounts = (List<AccountEntity>) request.getAttribute("accounts");
-        for (AccountEntity account : accounts) {
+        List<Account> accounts = (List<Account>) request.getAttribute("accounts");
+        for (Account account : accounts) {
     %>
     <tr>
         <td><%= account.getAccountId() %></td>
