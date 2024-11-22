@@ -1,10 +1,10 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page import="es.ir.minipim.entity2.AttributeEntity" %>
+<%@ page import="es.ir.minipim.entity.Attribute" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
-    List<AttributeEntity> list = (List<AttributeEntity>) request.getAttribute("attributesList");
+    List<Attribute> list = (List<Attribute>) request.getAttribute("attributesList");
 %>
 
 <html>
@@ -106,24 +106,24 @@
         <th>Delete</th>
     </tr>
     <%
-        for (AttributeEntity attribute : list) {
+        for (Attribute attribute : list) {
     %>
     <tr>
         <td><%=attribute.getAttributeType()%></td>
         <td>
-            <a href="/attributes/details?id=<%= attribute.getAttributeId() %>">
+            <a href="/attributes/details?id=<%= attribute.getId() %>">
                 <%= attribute.getAttributeName() %>
             </a>
         </td>
         <td><%= new java.text.SimpleDateFormat("dd-MM-yyyy").format(attribute.getCreatedAt()) %></td>
         <td>
-            <a href="/attributes/editar?id=<%= attribute.getAttributeId() %>">
+            <a href="/attributes/editar?id=<%= attribute.getId() %>">
                 <img src="/Images/editar.png" alt="Editar" />
             </a>
         </td>
         <td>
             <a href="javascript:void(0);"
-               onclick="confirmarEliminacion('/attributes/borrar?id=<%= attribute.getAttributeId() %>')">
+               onclick="confirmarEliminacion('/attributes/borrar?id=<%= attribute.getId() %>')">
                 <img src="/Images/eliminar.png" alt="Eliminar" width="20px" height="20px" />
             </a>
         </td>

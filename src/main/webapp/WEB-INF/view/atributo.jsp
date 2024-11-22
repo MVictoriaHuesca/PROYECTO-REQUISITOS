@@ -50,6 +50,9 @@
             </td>
         </tr>
         <tr>
+            <th>Date</th>
+            <td><form:input path="date" readonly="true"/></td>
+        <tr>
             <td colspan="2" style="text-align: center;">
                 <button type="submit">Enviar</button>
             </td>

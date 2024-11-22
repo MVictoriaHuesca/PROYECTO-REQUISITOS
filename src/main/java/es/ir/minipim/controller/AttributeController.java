@@ -2,9 +2,11 @@ package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.AttributeRepository;
-import es.ir.minipim.entity2.AttributeEntity;
-import es.ir.minipim.entity2.AttributeType;
-import es.ir.minipim.ui.Attribute;
+
+import es.ir.minipim.entity.Account;
+import es.ir.minipim.entity.Attribute;
+import es.ir.minipim.entity.AttributeType;
+import es.ir.minipim.ui.AttributeUI;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +28,7 @@ public class AttributeController {
 
     @GetMapping("/")
     public String doListar(Model model){
-        List<AttributeEntity> lista = this.attributeRepository.listarAtributosCuenta(1);
+        List<Attribute> lista = this.attributeRepository.listarAtributosCuenta(1);
         model.addAttribute("attributesList", lista);
         return "listadoAtributos";
     }
@@ -41,7 +43,7 @@ public class AttributeController {
     @GetMapping("/crear")
     public String doNuevo (Model model) {
         Attribute attribute = new Attribute();
-        attribute.setIdAttribute(-1);
+        attribute.setId(-1);
 
         model.addAttribute("attribute", attribute);
 
@@ -52,13 +54,19 @@ public class AttributeController {
 
     @PostMapping("/guardar")
     public String doGuardar (@ModelAttribute("attribute") Attribute theAttribute, HttpSession session) {
-        AttributeEntity attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new AttributeEntity());
+        Attribute attribute = this.attributeRepository.findById(theAttribute.getId()).orElse(new Attribute());
 
         //attribute.setAccountByAccountIdFk(this.accountRepository.findById((Integer) session.getAttribute("account")).get());
-        attribute.setAccountByAccountIdFk(this.accountRepository.findById(1).get());
-        attribute.setAttributeName(theAttribute.getName());
-        attribute.setAttributeType(theAttribute.getType());
-        attribute.setCreatedAt(Timestamp.valueOf(LocalDate.now().atStartOfDay()));
+        List<Account> listaAccount = this.accountRepository.findAll();
+        for(Account account : listaAccount){
+            if(account.getId() == 1){   //TODO: Cambiar por el id de la cuenta logueada
+                attribute.setAccountIdFk(account);
+            }
+        }
+
+        attribute.setAttributeName(theAttribute.getAttributeName());
+        attribute.setAttributeType(theAttribute.getAttributeType());
+        //La fecha no hace falta ponerla porque se pone por defecto en la base de datos
         this.attributeRepository.save(attribute);
 
         return "redirect:/attributes/";
@@ -66,11 +74,11 @@ public class AttributeController {
 
     @GetMapping("/editar")
     public String doConsult (@RequestParam("id") Integer id, Model model) {
-        AttributeEntity attribute = this.attributeRepository.findById(id).get();
+        Attribute attribute = this.attributeRepository.findById(id).get();
         Attribute attributeUI = new Attribute();
-        attributeUI.setIdAttribute(attribute.getAttributeId());
-        attributeUI.setName(attribute.getAttributeName());
-        attributeUI.setType(attribute.getAttributeType());
+        attributeUI.setId(attribute.getId());
+        attributeUI.setAttributeName(attribute.getAttributeName());
+        attributeUI.setAttributeType(attribute.getAttributeType());
 
         model.addAttribute("attribute", attributeUI);
         model.addAttribute("attributeTypes", AttributeType.values());
@@ -80,7 +88,7 @@ public class AttributeController {
 
     @GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
-        AttributeEntity attribute = this.attributeRepository.findById(id).get();
+        Attribute attribute = this.attributeRepository.findById(id).get();
         model.addAttribute("attribute", attribute);
         return "consultarAtributo";
     }

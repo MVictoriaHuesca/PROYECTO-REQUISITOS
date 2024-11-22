@@ -9,7 +9,7 @@ public class myController {
     private AccountRepository accountRepository;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public Text index(Model model) {
         List<AccountEntity> accounts = accountRepository.findAll();
         model.addAttribute("accounts", accounts);
         return "index";

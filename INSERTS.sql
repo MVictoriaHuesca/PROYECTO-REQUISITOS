@@ -20,10 +20,10 @@ VALUES
 -- Insertar atributos
 INSERT INTO attribute (account_id_fk, attribute_name, attribute_type)
 VALUES
-    (1, 'Color', 'String'),
-    (1, 'Size', 'String'),
+    (1, 'Color', 'Text'),
+    (1, 'Size', 'Text'),
     (2, 'Weight', 'Integer'),
-    (3, 'Material', 'String');
+    (3, 'Material', 'Text');
 
 -- Insertar relación entre cuentas y atributos
 INSERT INTO account_attribute (account_id_fk, attribute_id_fk)
