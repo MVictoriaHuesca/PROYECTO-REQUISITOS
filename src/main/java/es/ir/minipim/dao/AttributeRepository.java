@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AttributeRepository extends JpaRepository <Attribute, Integer> {
 
-    @Query("select a from Attribute a where a.accountIdFk = :id")
+    @Query("select a from Attribute a where a.accountIdFk.id = :id")
     public List<Attribute> listarAtributosCuenta (@Param("id") Integer id);
 
 }

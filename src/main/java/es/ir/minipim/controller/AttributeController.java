@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -42,32 +43,38 @@ public class AttributeController {
 
     @GetMapping("/crear")
     public String doNuevo (Model model) {
-        Attribute attribute = new Attribute();
-        attribute.setId(-1);
+        Account account = this.accountRepository.findById(1).get();
+        if(account.getAttributes().size() >= 5){
+            return "alerta";
+        }else {
 
-        model.addAttribute("attribute", attribute);
+            AttributeUI attribute = new AttributeUI();
+            attribute.setIdAttribute(-1);
 
-        model.addAttribute("attributeTypes", AttributeType.values());
+            model.addAttribute("attribute", attribute);
 
-        return "atributo";
+            model.addAttribute("attributeTypes", AttributeType.values());
+
+            return "atributo";
+        }
     }
 
     @PostMapping("/guardar")
-    public String doGuardar (@ModelAttribute("attribute") Attribute theAttribute, HttpSession session) {
-        Attribute attribute = this.attributeRepository.findById(theAttribute.getId()).orElse(new Attribute());
+    public String doGuardar (@ModelAttribute("attribute") AttributeUI theAttribute, HttpSession session) {
+        Account account = this.accountRepository.findById(1).get();
+        Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
 
         //attribute.setAccountByAccountIdFk(this.accountRepository.findById((Integer) session.getAttribute("account")).get());
-        List<Account> listaAccount = this.accountRepository.findAll();
-        for(Account account : listaAccount){
-            if(account.getId() == 1){   //TODO: Cambiar por el id de la cuenta logueada
-                attribute.setAccountIdFk(account);
-            }
-        }
+        attribute.setAccountIdFk(this.accountRepository.findById(1).get());
+        attribute.setAttributeName(theAttribute.getName());
+        attribute.setAttributeType(theAttribute.getType().toString());
+        attribute.setCreatedAt(Instant.now());
 
-        attribute.setAttributeName(theAttribute.getAttributeName());
-        attribute.setAttributeType(theAttribute.getAttributeType());
         //La fecha no hace falta ponerla porque se pone por defecto en la base de datos
         this.attributeRepository.save(attribute);
+
+        account.getAttributes().add(attribute);
+        this.accountRepository.save(account);
 
         return "redirect:/attributes/";
     }
@@ -75,10 +82,15 @@ public class AttributeController {
     @GetMapping("/editar")
     public String doConsult (@RequestParam("id") Integer id, Model model) {
         Attribute attribute = this.attributeRepository.findById(id).get();
-        Attribute attributeUI = new Attribute();
-        attributeUI.setId(attribute.getId());
-        attributeUI.setAttributeName(attribute.getAttributeName());
-        attributeUI.setAttributeType(attribute.getAttributeType());
+        AttributeUI attributeUI = new AttributeUI();
+        attributeUI.setIdAttribute(attribute.getId());
+        attributeUI.setName(attribute.getAttributeName());
+        for(AttributeType type : AttributeType.values()){
+            if(type.toString().equals(attribute.getAttributeType())){
+                attributeUI.setType(type);
+            }
+        }
+
 
         model.addAttribute("attribute", attributeUI);
         model.addAttribute("attributeTypes", AttributeType.values());
