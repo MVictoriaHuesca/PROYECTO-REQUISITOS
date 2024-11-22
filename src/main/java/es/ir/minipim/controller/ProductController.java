@@ -33,8 +33,7 @@ public class ProductController {
             return "redirect:/";
         }
         // Obtener lista de productos de un usuario
-        Integer idAccount = (Integer) session.getAttribute("account");
-        Account account = this.accountRepository.findById(idAccount).get();
+        Account account = this.accountRepository.findById(1).get();
         List<Product> lista = account.getProducts();
 
         //List<Product> lista = this.productRepository.findAll();
@@ -77,6 +76,19 @@ public class ProductController {
         return "editarProducto";
     }
 
+    @GetMapping("/edit")
+    public String doEditar(@RequestParam("id") Integer id, Model model){
+        Product producto = this.productRepository.findById(id).get();
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(producto.getId());
+        productDTO.setLabel(producto.getLabel());
+        productDTO.setSKU(producto.getSku());
+        productDTO.setGTIN(producto.getGtin());
+        productDTO.setCreationDate(producto.getCreatedAt());
+        model.addAttribute("product", productDTO);
+        return "editarProducto";
+    }
+
     @PostMapping("/save")
     public String doGuardar(@ModelAttribute("product") ProductDTO product, HttpSession session){
         Product producto = this.productRepository.findById(product.getId()).orElse(new Product());
@@ -85,41 +97,36 @@ public class ProductController {
         producto.setSku(product.getSKU());
         producto.setGtin(product.getGTIN());
         producto.setCreatedAt(Instant.now());
-        List<Account> cuentas = producto.getAccounts();
-        if(cuentas == null){
-            cuentas = new ArrayList<>();
-        }
-        cuentas.add(this.accountRepository.findById(1).get());
 
-        producto.setAccounts(cuentas);
         this.productRepository.save(producto);
 
-        //Account account = this.accountRepository.findById(1).get();
+        Account account = this.accountRepository.findById(1).get();
 
-
-/*
         AccountProduct accountProduct = new AccountProduct();
-        accountProduct.setAccountIdFk(1);
-        accountProduct.setProductIdFk(producto.getProductId());
-        accountProduct.setProductByProductIdFk(producto);
-        accountProduct.setAccountByAccountIdFk(account);
 
-        producto.getAccountProductsByProductId().add(accountProduct);
-        account.getAccountProductsByAccountId().add(accountProduct);
+        AccountProductId accountProductId = new AccountProductId(); // Id compuesto
+        accountProductId.setAccountIdFk(1); // Id de la cuenta
+        accountProductId.setProductIdFk(producto.getId()); // Id del producto
+
+        accountProduct.setId(accountProductId);
+        accountProduct.setProductIdFk(producto);
+        accountProduct.setAccountIdFk(account);
 
         this.accountProductRepository.save(accountProduct);
-
+        /*
         this.productRepository.save(producto);
         this.accountRepository.save(account);
-*/
-
-
-
+        */
         return "redirect:/products/";
     }
 
     @GetMapping("/delete")
     public String doBorrar (@RequestParam("id") Integer id, HttpSession session) {
+        Product producto = this.productRepository.findById(id).get();
+
+        List<AccountProduct> productosDeCuenta = this.accountProductRepository.productosDeCuenta(producto);
+        this.accountProductRepository.deleteAll(productosDeCuenta);
+
         this.productRepository.deleteById(id);
         return "redirect:/products/";
     }

@@ -1,8 +1,8 @@
-<%@ page import="es.ir.minipim.entity2.ProductEntity" %>
+<%@ page import="es.ir.minipim.entity.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  List<ProductEntity> lista = (List<ProductEntity>) request.getAttribute("lista");
+  List<Product> lista = (List<Product>) request.getAttribute("lista");
 %>
 <html>
 <head>
@@ -89,21 +89,21 @@
   </thead>
   <tbody>
   <%
-    for(ProductEntity producto: lista){
+    for(Product producto: lista){
   %>
   <tr>
     <td><%= producto.getSku() %></td>
     <td><%= producto.getLabel() %></td>
     <td><%= producto.getGtin() %></td>
     <td><%= producto.getCreatedAt() %></td>
-    <td><a href="/products/details?id=<%= producto.getProductId() %>">Details</a></td>
+    <td><a href="/products/details?id=<%= producto.getId() %>">Details</a></td>
     <td class="action-icons">
-      <a href="/products/edit?id=<%= producto.getProductId() %>">
+      <a href="/products/edit?id=<%= producto.getId() %>">
         <img src="/Images/editar.png" alt="Editar" title="Editar" />
       </a>
     </td>
     <td class="action-icons">
-      <a href="/attributes/delete?id=<%= producto.getProductId() %>">
+      <a href="/products/delete?id=<%= producto.getId() %>">
         <img src="/Images/eliminar.png" alt="Eliminar" title="Eliminar" />
       </a>
     </td>

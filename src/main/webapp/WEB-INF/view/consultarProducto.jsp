@@ -1,13 +1,12 @@
-<%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
-<%@ page import="es.ir.minipim.entity2.*" %>
+<%@ page import="es.ir.minipim.entity.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    ProductEntity producto = (ProductEntity) request.getAttribute("producto");
-    List<AttributeEntity> attributes = (List<AttributeEntity>) request.getAttribute("attributes");
-    List<ProductAttributeEntity> productAttributes = (List<ProductAttributeEntity>) request.getAttribute("productAttributes");
-    List<CategoryEntity> categories = (List<CategoryEntity>) request.getAttribute("categories");
-    List<ProductCategoryEntity> productCategories = (List<ProductCategoryEntity>) request.getAttribute("productCategories");
+    Product producto = (Product) request.getAttribute("producto");
+    List<Attribute> attributes = (List<Attribute>) request.getAttribute("attributes");
+    List<ProductAttribute> productAttributes = (List<ProductAttribute>) request.getAttribute("productAttributes");
+    List<Category> categories = (List<Category>) request.getAttribute("categories");
+    List<ProductCategory> productCategories = (List<ProductCategory>) request.getAttribute("productCategories");
 %>
 <html>
 <head>
@@ -110,9 +109,9 @@
         <h3>Attributes</h3>
         <ul>
             <%
-                for (AttributeEntity att : attributes) {
-                    for (ProductAttributeEntity pa : productAttributes) {
-                        if (pa.getAttributeByAttributeIdFk().getAttributeId().equals(att.getAttributeId())) {
+                for (Attribute att : attributes) {
+                    for (ProductAttribute pa : productAttributes) {
+                        if (pa.getAttributeIdFk().getId().equals(att.getId())) {
             %>
             <li><strong><%= att.getAttributeName() %>:</strong> <%= pa.getValue() %></li>
             <%
@@ -127,9 +126,9 @@
         <h3>Categories</h3>
         <ul>
             <%
-                for (CategoryEntity cat : categories) {
-                    for (ProductCategoryEntity pc : productCategories) {
-                        if (pc.getCategoryByCategoryIdFk().getCategoryId().equals(cat.getCategoryId())) {
+                for (Category cat : categories) {
+                    for (ProductCategory pc : productCategories) {
+                        if (pc.getCategoryIdFk().getId().equals(cat.getId())) {
             %>
             <li><%= cat.getCategoryName() %></li>
             <%

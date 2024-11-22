@@ -1,7 +1,8 @@
 <%@ page import="es.ir.minipim.dto.AccountDto" %>
+<%@ page import="es.ir.minipim.entity.Account" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    AccountDto account = (AccountDto) request.getAttribute("account");
+    Account account = (Account) request.getAttribute("account");
     String accountName = account.getAccountName();
 %>
 <!DOCTYPE html>
