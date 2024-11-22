@@ -115,7 +115,7 @@
                 <%= attribute.getAttributeName() %>
             </a>
         </td>
-        <td><%= new java.text.SimpleDateFormat("dd-MM-yyyy").format(attribute.getCreatedAt()) %></td>
+        <td><%= attribute.getCreatedAt() %></td>
         <td>
             <a href="/attributes/editar?id=<%= attribute.getId() %>">
                 <img src="/Images/editar.png" alt="Editar" />

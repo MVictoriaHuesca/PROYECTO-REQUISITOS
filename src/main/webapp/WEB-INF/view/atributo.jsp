@@ -33,6 +33,7 @@
     </style>
 </head>
 <body>
+
 <jsp:include page="cabecera.jsp" />
 <form:form method="post" action="/attributes/guardar" modelAttribute="attribute">
     <form:hidden path="idAttribute" />
@@ -49,10 +50,7 @@
                 </form:select>
             </td>
         </tr>
-        <tr>
-            <th>Date</th>
-            <td><form:input path="date" readonly="true"/></td>
-        <tr>
+
             <td colspan="2" style="text-align: center;">
                 <button type="submit">Enviar</button>
             </td>
