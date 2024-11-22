@@ -1,5 +1,5 @@
 package es.ir.minipim.dto;
-import es.ir.minipim.entity2.*;
+import es.ir.minipim.entity.*;
 import lombok.Data;
 
 import java.util.List;
@@ -11,11 +11,11 @@ public class AccountDto {
     private String emailAddress;
     private String accountProfilePicture;
     private String createdAt;
-    private List<AccountAttributeEntity> accountAttributesByAccountId;
-    private List<AccountCategoryEntity> accountCategoriesByAccountId;
-    private List<AccountProductEntity> accountProductsByAccountId;
-    private List<AttributeEntity> attributesByAccountId;
-    private List<CategoryEntity> categoriesByAccountId;
-    private List<ProductAttributeEntity> productAttributesByAccountId;
-    private List<ProductCategoryEntity> productCategoriesByAccountId;
+    private List<AccountAttribute> accountAttributesByAccountId;
+    private List<AccountCategory> accountCategoriesByAccountId;
+    private List<AccountProduct> accountProductsByAccountId;
+    private List<Attribute> attributesByAccountId;
+    private List<Category> categoriesByAccountId;
+    private List<ProductAttribute> productAttributesByAccountId;
+    private List<ProductCategory> productCategoriesByAccountId;
 }
