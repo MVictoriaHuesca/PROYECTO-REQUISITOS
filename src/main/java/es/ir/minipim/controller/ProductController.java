@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,19 +44,19 @@ public class ProductController {
 
     @GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
-        ProductDTO producto = this.productRepository.findById(id).get();
+        Product producto = this.productRepository.findById(id).get();
         // Atributos
-        List<ProductAttribute> productAttributes = (List<ProductAttribute>) producto.getProductAttributesByProductId();
+        List<ProductAttribute> productAttributes = producto.getProductAttributes();
         List<Attribute> attributes = new ArrayList<>();
         for(ProductAttribute p : productAttributes){
-            attributes.add(p.getAttributeByAttributeIdFk());
+            attributes.add(p.getAttributeIdFk());
         }
 
         // Categorias
-        List<ProductCategory> productCategories = (List<ProductCategory>) producto.getProductCategoriesByProductId();
+        List<ProductCategory> productCategories = (List<ProductCategory>) producto.getProductCategories();
         List<Category> categories = new ArrayList<>();
         for(ProductCategory p : productCategories){
-            categories.add(p.getCategoryByCategoryIdFk());
+            categories.add(p.getCategoryIdFk());
         }
 
         model.addAttribute("producto", producto);
@@ -78,18 +79,25 @@ public class ProductController {
 
     @PostMapping("/save")
     public String doGuardar(@ModelAttribute("product") ProductDTO product, HttpSession session){
-        ProductDTO producto = this.productRepository.findById(product.getId()).orElse(new ProductDTO());
+        Product producto = this.productRepository.findById(product.getId()).orElse(new Product());
 
         producto.setLabel(product.getLabel());
         producto.setSku(product.getSKU());
         producto.setGtin(product.getGTIN());
-        producto.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        producto.setCreatedAt(Instant.now());
+        List<Account> cuentas = producto.getAccounts();
+        if(cuentas == null){
+            cuentas = new ArrayList<>();
+        }
+        cuentas.add(this.accountRepository.findById(1).get());
 
+        producto.setAccounts(cuentas);
         this.productRepository.save(producto);
-        //Product productoGuardado = this.productRepository.ultimoId();
 
-        Account account = this.accountRepository.findById(1).get();
+        //Account account = this.accountRepository.findById(1).get();
 
+
+/*
         AccountProduct accountProduct = new AccountProduct();
         accountProduct.setAccountIdFk(1);
         accountProduct.setProductIdFk(producto.getProductId());
@@ -103,7 +111,7 @@ public class ProductController {
 
         this.productRepository.save(producto);
         this.accountRepository.save(account);
-
+*/
 
 
 
