@@ -1,18 +1,20 @@
 package es.ir.minipim.ui;
 
-import es.ir.minipim.entity2.AccountEntity;
-import es.ir.minipim.entity2.AttributeType;
+import es.ir.minipim.entity.Account;
+import es.ir.minipim.entity.Attribute;
+import es.ir.minipim.entity.AttributeType;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
-public class Attribute {
+public class AttributeUI {
     private String name;
     private AttributeType type;
-    private Timestamp date;
-    private AccountEntity account;
+    private Instant date;
+    private Account account;
     private Integer idAttribute;
 
-    public Attribute() {
+    public AttributeUI() {
     }
 
     public String getName() {
@@ -29,17 +31,17 @@ public class Attribute {
         this.type = type;
     }
 
-    public Timestamp getDate() {
+    public Instant getDate() {
         return date;
     }
-    public void setDate(Timestamp date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
-    public AccountEntity getAccount() {
+    public Account getAccount() {
         return account;
     }
-    public void setAccount(AccountEntity account) {
+    public void setAccount(Account account) {
         this.account = account;
     }
 

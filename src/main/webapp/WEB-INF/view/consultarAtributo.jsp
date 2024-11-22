@@ -1,7 +1,7 @@
-<%@ page import="es.ir.minipim.entity2.AttributeEntity" %>
+<%@ page import="es.ir.minipim.entity.Attribute" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    AttributeEntity attribute = (AttributeEntity) request.getAttribute("attribute");
+    Attribute attribute = (Attribute) request.getAttribute("attribute");
 %>
 <html>
 <head>
@@ -66,6 +66,11 @@
         <td>Type:</td>
         <td><%= attribute.getAttributeType() %></td>
     </tr>
+    <tr>
+        <td>Created:</td>
+        <td><%= attribute.getCreatedAt() %></td>
+    </tr>
+
 </table>
 
 <!-- Contenedor para centrar el botón debajo de la tabla -->

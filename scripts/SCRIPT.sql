@@ -33,7 +33,7 @@ CREATE TABLE attribute (
 	attribute_id INT NOT NULL AUTO_INCREMENT,
     account_id_fk INT NOT NULL,
     attribute_name VARCHAR(50) NOT NULL,
-    attribute_type ENUM('Integer', 'Double', 'String') NOT NULL,
+    attribute_type ENUM('Integer', 'Double', 'Text') NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT (NOW()),
     FOREIGN KEY(account_id_fk) REFERENCES account(account_id),
     PRIMARY KEY(attribute_id)
