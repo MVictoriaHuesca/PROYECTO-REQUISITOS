@@ -1,7 +1,11 @@
 package es.ir.minipim.ui;
 
+import es.ir.minipim.entity.ProductAttribute;
+import es.ir.minipim.entity.ProductCategory;
+
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 public class ProductDTO {
     private Integer id;
@@ -9,6 +13,7 @@ public class ProductDTO {
     private String SKU;
     private Long GTIN;
     private Instant creationDate;
+    private List<Integer> categories;
 
     public ProductDTO() {
     }
@@ -51,5 +56,13 @@ public class ProductDTO {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public List<Integer> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Integer> categories) {
+        this.categories = categories;
     }
 }

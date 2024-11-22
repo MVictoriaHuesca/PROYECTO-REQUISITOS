@@ -36,6 +36,10 @@
             <td><form:input path="creationDate" size="50" maxlength="50" readonly="true"/></td>
         </tr>
         <tr>
+            <td>Categories:</td>
+            <td><form:checkboxes path="categories" items="${categories}" itemLabel="categoryName" itemValue="id" /></td>
+        </tr>
+        <tr>
             <td colspan="2"> <button>Enviar</button></td>
         </tr>
     </table>
