@@ -1,7 +1,11 @@
+<%@ page import="es.ir.minipim.entity.Account" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
+
+
     <title>Nuevo Atributo</title>
     <style>
         /* Estilo para la tabla */

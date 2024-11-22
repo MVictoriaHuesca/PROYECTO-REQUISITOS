@@ -43,19 +43,25 @@ public class AttributeController {
 
     @GetMapping("/crear")
     public String doNuevo (Model model) {
+        Account account = this.accountRepository.findById(1).get();
+        if(account.getAttributes().size() >= 5){
+            return "alerta";
+        }else {
 
-        AttributeUI attribute = new AttributeUI();
-        attribute.setIdAttribute(-1);
+            AttributeUI attribute = new AttributeUI();
+            attribute.setIdAttribute(-1);
 
-        model.addAttribute("attribute", attribute);
+            model.addAttribute("attribute", attribute);
 
-        model.addAttribute("attributeTypes", AttributeType.values());
+            model.addAttribute("attributeTypes", AttributeType.values());
 
-        return "atributo";
+            return "atributo";
+        }
     }
 
     @PostMapping("/guardar")
     public String doGuardar (@ModelAttribute("attribute") AttributeUI theAttribute, HttpSession session) {
+        Account account = this.accountRepository.findById(1).get();
         Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
 
         //attribute.setAccountByAccountIdFk(this.accountRepository.findById((Integer) session.getAttribute("account")).get());
@@ -63,8 +69,12 @@ public class AttributeController {
         attribute.setAttributeName(theAttribute.getName());
         attribute.setAttributeType(theAttribute.getType().toString());
         attribute.setCreatedAt(Instant.now());
+
         //La fecha no hace falta ponerla porque se pone por defecto en la base de datos
         this.attributeRepository.save(attribute);
+
+        account.getAttributes().add(attribute);
+        this.accountRepository.save(account);
 
         return "redirect:/attributes/";
     }
