@@ -10,7 +10,7 @@ public class myController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List<AccountEntity> accounts = accountRepository.findAll();
+        List<Account> accounts = accountRepository.findAll();
         model.addAttribute("accounts", accounts);
         return "index";
     }

@@ -72,7 +72,7 @@ public class ProductController {
     public String doNuevo(Model model, HttpSession session){
         ProductDTO producto = new ProductDTO();
         producto.setId(-1);
-        producto.setCreationDate(new Timestamp(System.currentTimeMillis()));
+        producto.setCreationDate(Instant.now());
         model.addAttribute("product", producto);
         return "editarProducto";
     }

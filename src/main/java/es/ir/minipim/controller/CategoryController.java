@@ -1,7 +1,7 @@
 package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.CategoryRepository;
-import es.ir.minipim.entity2.CategoryEntity;
+import es.ir.minipim.entity.Category;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class CategoryController {
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
-        List<CategoryEntity> lista = this.categoryRepository.findAll();
+        List<Category> lista = this.categoryRepository.findAll();
         model.addAttribute("lista", lista);
         return "listadoCategorias";
     }
@@ -37,7 +37,7 @@ public class CategoryController {
     @GetMapping("/new")
     public String doNuevo (Model model, HttpSession session) {
 
-        CategoryEntity categoria = new CategoryEntity();
+        Category categoria = new Category();
         model.addAttribute("category", categoria);
 
         return "redirect:/categories/";    //"newCategory"
@@ -45,10 +45,10 @@ public class CategoryController {
 
     /*@GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
-        CategoryEntity categoria = this.categoryRepository.findById(id).get();
-        List<CategoryEntity> CategoryAttributes = (List<CategoryEntity>) categoria.getProductCategoriesByCategoryId();
-        List<AttributeEntity> attributes = new ArrayList<>();
-        for(ProductAttributeEntity p : productAttributes){
+        Category categoria = this.categoryRepository.findById(id).get();
+        List<Category> CategoryAttributes = (List<Category>) categoria.getProductCategoriesByCategoryId();
+        List<Attribute> attributes = new ArrayList<>();
+        for(ProductAttribute p : productAttributes){
             attributes.add(p.getAttributeByAttributeIdFk());
         }
         model.addAttribute("producto", producto);

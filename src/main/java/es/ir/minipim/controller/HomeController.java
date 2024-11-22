@@ -1,7 +1,7 @@
 package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.AccountRepository;
-import es.ir.minipim.entity2.AccountEntity;
+import es.ir.minipim.entity.Account;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class HomeController extends BaseController{
             return "redirect:/";
         }
         Integer id = (Integer) session.getAttribute("account");
-        AccountEntity account = this.accountRepository.findById(id).orElse(null);
+        Account account = this.accountRepository.findById(id).orElse(null);
         model.addAttribute("account", account.toDto());
         return "home";
 

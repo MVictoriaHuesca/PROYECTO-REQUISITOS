@@ -2,8 +2,8 @@ package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.AttributeRepository;
-import es.ir.minipim.entity2.AttributeEntity;
-import es.ir.minipim.entity2.AttributeType;
+import es.ir.minipim.entity.Attribute;
+import es.ir.minipim.entity.AttributeType;
 import es.ir.minipim.ui.Attribute;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AttributeController {
 
     @GetMapping("/")
     public String doListar(Model model){
-        List<AttributeEntity> lista = this.attributeRepository.listarAtributosCuenta(1);
+        List<Attribute> lista = this.attributeRepository.listarAtributosCuenta(1);
         model.addAttribute("attributesList", lista);
         return "listadoAtributos";
     }
@@ -52,7 +52,7 @@ public class AttributeController {
 
     @PostMapping("/guardar")
     public String doGuardar (@ModelAttribute("attribute") Attribute theAttribute, HttpSession session) {
-        AttributeEntity attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new AttributeEntity());
+        Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
 
         //attribute.setAccountByAccountIdFk(this.accountRepository.findById((Integer) session.getAttribute("account")).get());
         attribute.setAccountByAccountIdFk(this.accountRepository.findById(1).get());
@@ -66,7 +66,7 @@ public class AttributeController {
 
     @GetMapping("/editar")
     public String doConsult (@RequestParam("id") Integer id, Model model) {
-        AttributeEntity attribute = this.attributeRepository.findById(id).get();
+        Attribute attribute = this.attributeRepository.findById(id).get();
         Attribute attributeUI = new Attribute();
         attributeUI.setIdAttribute(attribute.getAttributeId());
         attributeUI.setName(attribute.getAttributeName());
@@ -80,7 +80,7 @@ public class AttributeController {
 
     @GetMapping("/details")
     public String doDetails(@RequestParam("id") Integer id, Model model){
-        AttributeEntity attribute = this.attributeRepository.findById(id).get();
+        Attribute attribute = this.attributeRepository.findById(id).get();
         model.addAttribute("attribute", attribute);
         return "consultarAtributo";
     }
