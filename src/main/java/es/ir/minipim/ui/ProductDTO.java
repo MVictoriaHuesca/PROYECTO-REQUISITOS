@@ -1,15 +1,16 @@
 package es.ir.minipim.ui;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
-public class Product {
+public class ProductDTO {
     private Integer id;
     private String label;
     private String SKU;
     private Long GTIN;
-    private Timestamp creationDate;
+    private Instant creationDate;
 
-    public Product() {
+    public ProductDTO() {
     }
 
     public Integer getId() {
@@ -36,11 +37,11 @@ public class Product {
         this.GTIN = GTIN;
     }
 
-    public Timestamp getCreationDate() {
+    public Instant getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(Instant creationDate) {
         this.creationDate = creationDate;
     }
 

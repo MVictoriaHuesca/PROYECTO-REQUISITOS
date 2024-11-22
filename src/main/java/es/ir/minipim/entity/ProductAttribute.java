@@ -27,4 +27,7 @@ public class ProductAttribute {
     @JoinColumn(name = "account_id_fk", nullable = false)
     private Account accountIdFk;
 
+    @Column(name = "value", length = 50)
+    private String value;
+
 }

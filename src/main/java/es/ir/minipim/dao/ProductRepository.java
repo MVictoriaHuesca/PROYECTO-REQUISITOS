@@ -1,11 +1,9 @@
 package es.ir.minipim.dao;
 
-import es.ir.minipim.entity2.ProductEntity;
+import es.ir.minipim.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query("select p from ProductEntity p order by p.productId desc limit 1")
-    public ProductEntity ultimoId();
 }
