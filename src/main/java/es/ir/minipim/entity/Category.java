@@ -19,6 +19,10 @@ public class Category {
     @Column(name = "category_id", nullable = false)
     private Integer id;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "account_id_fk", nullable = false)
+    private Account accountIdFk;
+
     @Column(name = "category_name", nullable = false, length = 50)
     private String categoryName;
 
@@ -31,5 +35,7 @@ public class Category {
 
     @OneToMany(mappedBy = "categoryIdFk")
     private List<ProductCategory> productCategories = new ArrayList<>();
+
+
 
 }

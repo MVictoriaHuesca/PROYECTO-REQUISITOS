@@ -71,21 +71,24 @@ public class CategoryController {
 
         category.setCategoryName(theCategory.getName());
         category.setCreatedAt(Instant.now());
-        this.categoryRepository.save(category);
+
 
         if (isNew) {
             Account account = this.accountRepository.findById(1).get();
-            AccountCategoryId accountCategoryId = new AccountCategoryId();
-            accountCategoryId.setAccountIdFk(account.getId());
-            accountCategoryId.setCategoryIdFk(category.getId());
+            category.setAccountIdFk(account);
 
-            AccountCategory accountCategory = new AccountCategory();
-            accountCategory.setId(accountCategoryId);
-            accountCategory.setAccountIdFk(account);
-            accountCategory.setCategoryIdFk(category);
+            List<Account> accounts = category.getAccounts();
+            accounts.add(account);
+            category.setAccounts(accounts);
 
-            this.accountCategoryRepository.save(accountCategory);
+            this.categoryRepository.save(category);
+
+            List<Category> categories = account.getCategories();
+            categories.add(category);
+            account.setCategories(categories);
         }
+
+        this.categoryRepository.save(category);
 
         return "redirect:/categories/";
     }

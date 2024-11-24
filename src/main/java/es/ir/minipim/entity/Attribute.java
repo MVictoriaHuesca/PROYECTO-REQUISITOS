@@ -39,6 +39,6 @@ public class Attribute {
     private List<Account> accounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "attributeIdFk")
-    private List<es.ir.minipim.entity.ProductAttribute> productAttributes = new ArrayList<>();
+    private List<ProductAttribute> productAttributes = new ArrayList<>();
 
 }
