@@ -1,14 +1,13 @@
-<%@ page import="es.ir.minipim.entity.Account" %>
-<%@ page import="es.ir.minipim.ui.AttributeUI" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.ir.minipim.entity.Product" %>
+<%@ page import="es.ir.minipim.entity.Category" %>
 <html>
 <head>
 
 
-    <title>New Attribute</title>
+    <title>New Category</title>
     <style>
         /* Estilo para la tabla */
         table {
@@ -39,26 +38,16 @@
     </style>
 </head>
 <body>
-
 <jsp:include page="cabecera.jsp" />
-<form:form method="post" action="/attributes/guardar" modelAttribute="attribute">
-    <form:hidden path="idAttribute" />
+<h1>Add Category</h1>
+<form:form method="post" action="/categories/save" modelAttribute="categoria">
+    <form:hidden path="idCategory" />
     <table>
         <tr>
-            <th>Name</th>
+            <th>Category Name:</th>
             <td><form:input path="name" size="50" maxlength="50"/></td>
-        </tr>
-        <tr>
-            <th>Type</th>
-            <td>
-                <form:select path="type">
-                    <form:options items="${attributeTypes}" />
-                </form:select>
-            </td>
-        </tr>
-
             <td colspan="2" style="text-align: center;">
-                <button type="submit">Enviar</button>
+                <button type="submit">Accept</button>
             </td>
         </tr>
     </table>

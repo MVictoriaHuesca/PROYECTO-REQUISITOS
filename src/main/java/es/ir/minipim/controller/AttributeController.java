@@ -64,44 +64,50 @@ public class AttributeController {
     }
 
     @PostMapping("/guardar")
-    public String doGuardar (@ModelAttribute("attribute") AttributeUI theAttribute, HttpSession session) {
-        Account account = this.accountRepository.findById(1).get();
+    public String doGuardar (@ModelAttribute("attribute") AttributeUI theAttribute) {
         Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
+        boolean isNew = attribute.getId() == null;
 
-        // Añadir el nuevo atributo a la lista de atributos de la cuenta
-        List<Attribute> attributes = account.getAttributes();
-        attributes.add(attribute);
-        account.setAttributes(attributes);
-
-        // Gurdar el atributo, asociar la cuenta al atributo
-        attribute.setAccountIdFk(account);
-        attribute.setAttributeName(theAttribute.getName());
         attribute.setAttributeType(theAttribute.getType().toString());
         attribute.setCreatedAt(Instant.now());
-        List<Account> accounts = attribute.getAccounts();
-        accounts.add(account);
+
+        if (isNew) {
+            Account account = this.accountRepository.findById(1).get();
+            attribute.setAccountIdFk(account);
+
+            List<Account> accounts = attribute.getAccounts();
+            accounts.add(account);
+            attribute.setAccounts(accounts);
+
+            this.attributeRepository.save(attribute);
+
+            List<Attribute> attributes = account.getAttributes();
+            attributes.add(attribute);
+            account.setAttributes(attributes);
+        }
+
         this.attributeRepository.save(attribute);
 
         return "redirect:/attributes/";
     }
 
     @GetMapping("/editar")
-    public String doConsult (@RequestParam("id") Integer id, Model model) {
+    public String doEditar (@RequestParam("id") Integer id, Model model) {
         Attribute attribute = this.attributeRepository.findById(id).get();
         AttributeUI attributeUI = new AttributeUI();
         attributeUI.setIdAttribute(attribute.getId());
         attributeUI.setName(attribute.getAttributeName());
+        attributeUI.setAccount(attribute.getAccountIdFk());
         for(AttributeType type : AttributeType.values()){
             if(type.toString().equals(attribute.getAttributeType())){
                 attributeUI.setType(type);
             }
         }
-
-
+        model.addAttribute("attributeModel", new AttributeUI());
         model.addAttribute("attribute", attributeUI);
         model.addAttribute("attributeTypes", AttributeType.values());
 
-        return "atributo";
+        return "/Attribute/editarAtributo";
     }
 
     @GetMapping("/details")
