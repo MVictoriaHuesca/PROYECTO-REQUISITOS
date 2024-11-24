@@ -1,15 +1,19 @@
 package es.ir.minipim.controller;
 
+import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.CategoryRepository;
-import es.ir.minipim.entity.Category;
+import es.ir.minipim.entity.*;
+import es.ir.minipim.ui.AttributeUI;
+import es.ir.minipim.ui.CategoryUI;
+import es.ir.minipim.ui.ProductDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,6 +22,9 @@ public class CategoryController {
 
     @Autowired
     protected CategoryRepository categoryRepository;
+
+    @Autowired
+    protected AccountRepository accountRepository;
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
@@ -40,20 +47,45 @@ public class CategoryController {
         Category categoria = new Category();
         model.addAttribute("category", categoria);
 
-        return "redirect:/categories/";    //"newCategory"
+        return "crearCategoria";    //"newCategory"
     }
 
-    /*@GetMapping("/details")
-    public String doDetails(@RequestParam("id") Integer id, Model model){
+    @GetMapping("/edit")
+    public String doEditar(@RequestParam("id") Integer id, Model model){
         Category categoria = this.categoryRepository.findById(id).get();
-        List<Category> CategoryAttributes = (List<Category>) categoria.getProductCategoriesByCategoryId();
-        List<Attribute> attributes = new ArrayList<>();
-        for(ProductAttribute p : productAttributes){
-            attributes.add(p.getAttributeByAttributeIdFk());
+        categoria.getProductCategories(); // Quiero las categorias
+
+
+        return "editarProducto";
+    }
+
+    @PostMapping("/save")
+    public String doGuardar (@ModelAttribute("category") CategoryUI theCategory, HttpSession session) {
+        // Carga de la cuenta asociada
+        Account account = this.accountRepository.findById(1).get();
+        Category categoria;
+
+        // Si el ID de la categoría es null, crea una nueva categoría, sino, actualiza la existente
+        if (theCategory.getIdCategory() != null) {
+            categoria = this.categoryRepository.findById(theCategory.getIdCategory())
+                    .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        } else {
+            categoria = new Category(); // Nueva categoría
         }
-        model.addAttribute("producto", producto);
-        model.addAttribute("productAttributes", productAttributes);
-        model.addAttribute("attributes", attributes);
-        return "consultarProducto";
-    }*/
+        // Actualización de la categoría
+        categoria.setCategoryName(theCategory.getName());  // Asegúrate de que 'theCategory.getName()' no sea null
+        categoria.setCreatedAt(Instant.now());
+        this.categoryRepository.save(categoria);    /// ME DA ERROR EN ESTA LINEA
+
+        // Relación AccountCategory (opcional, solo si necesitas crearla)
+        AccountCategory accountCategory = new AccountCategory();
+        accountCategory.setAccountIdFk(account);
+        accountCategory.setCategoryIdFk(categoria);
+
+        // Guardado final (actualización de la relación)
+        account.getCategories().add(categoria);
+        this.accountRepository.save(account);
+
+        return "redirect:/categories/";
+    }
 }

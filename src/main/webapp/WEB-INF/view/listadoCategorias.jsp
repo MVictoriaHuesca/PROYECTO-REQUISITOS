@@ -6,7 +6,7 @@
 %>
 <html>
 <head>
-    <title>Categorías</title>
+    <title>Categories</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,22 +26,21 @@
         th {
             background-color: #f2f2f2;
         }
-        td.delete-icon {
+        td.delete-icon, td.edit-icon {
             text-align: center;
         }
-        .delete-icon img {
+        .delete-icon img, .edit-icon img {
             cursor: pointer;
         }
-        .action-icons {
+        td a:hover {
+            text-decoration: underline; /* Subrayado al pasar el mouse sobre el nombre */
+        }
+        .add-icon {
             display: flex;
-            justify-content: flex-end; /* Alinea los íconos a la derecha */
-            margin: 20px 0; /* Espaciado superior e inferior */
-            gap: 15px; /* Espaciado entre íconos */
+            justify-content: flex-end; /* Coloca el botón a la derecha */
+            margin: 20px 10%; /* Margen superior e inferior y margen lateral para alinearlo con la tabla */
         }
-        .action-icons a {
-            text-decoration: none;
-        }
-        .action-icons img {
+        .add-icon img {
             width: 30px;
             height: 30px;
             cursor: pointer;
@@ -49,7 +48,7 @@
     </style>
     <script>
         function confirmarEliminacion(url) {
-            const confirmar = confirm("¿Estás seguro de que deseas eliminar esta categoría?");
+            const confirmar = confirm("Are you sure you want to delete this category?");
             if (confirmar) {
                 window.location.href = url;
             }
@@ -62,41 +61,39 @@
 </div>
 
 <!-- Íconos de acción (colocados debajo de la cabecera) -->
-<div class="action-icons">
-    <a href="/categories/crear.jsp" title="Crear categoría">
-        <img src="/Images/ayadir.png" alt="Crear" />
-    </a>
-    <a href="/categories/modificar.jsp" title="Modificar categoría">
-        <img src="/Images/editar.png" alt="Modificar" />
-    </a>
-    <a href="/categories/eliminar.jsp" title="Borrar categoría">
-        <img src="/Images/eliminar.png" alt="Borrar" />
+<div class="add-icon">
+    <a href="/categories/new" title="Crear categoría">
+        <img src="/Images/ayadir.png" alt="Add" />
     </a>
 </div>
 
-<h2>Lista de Categorías</h2>
-
 <table>
     <tr>
-        <th>Nombre</th>
-        <th># Productos</th>
-        <th>Fecha de Creación</th>
-        <th>Eliminar</th>
+        <th>Name</th>
+        <th># Products</th>
+        <th>Creation Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
         <%
         for (Category categoria : lista) {
-            int numeroProductos = categoria.getProductCategoriesByCategoryId() != null
-                                  ? categoria.getProductCategoriesByCategoryId().size()
+            int numeroProductos = categoria.getId() != null
+                                  ? categoria.getProductCategories().size()
                                   : 0;
     %>
     <tr>
         <td><%= categoria.getCategoryName() %></td>
         <td><%= numeroProductos %></td>
         <td><%= categoria.getCreatedAt() %></td>
+        <td class="edit-icon">
+            <a href="/categories/edit?id=<%= categoria.getId() %>">
+                <img src="/Images/editar.png" alt="Edit" width="20px" height="20px" />
+            </a>
+        </td>
         <td class="delete-icon">
             <a href="javascript:void(0);"
-               onclick="confirmarEliminacion('/categories/borrar?id=<%= categoria.getCategoryId() %>')">
-                <img src="/Images/eliminar.png" alt="Eliminar" width="20px" height="20px" />
+               onclick="confirmarEliminacion('/categories/borrar?id=<%= categoria.getId() %>')">
+                <img src="/Images/eliminar.png" alt="Delete" width="20px" height="20px" />
             </a>
         </td>
     </tr>

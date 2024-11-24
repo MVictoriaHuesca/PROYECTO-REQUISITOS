@@ -6,7 +6,7 @@
 <head>
 
 
-    <title>Nuevo Atributo</title>
+    <title>New Attribute</title>
     <style>
         /* Estilo para la tabla */
         table {
