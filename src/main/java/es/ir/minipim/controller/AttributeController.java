@@ -29,12 +29,7 @@ public class AttributeController {
 
     @GetMapping("/")
     public String doListar(Model model){
-        List<Attribute> lista;
-        if(this.attributeRepository.listarAtributosCuenta(1).size() == 0){
-            lista = new ArrayList<>();
-        } else {
-            lista = this.attributeRepository.listarAtributosCuenta(1);
-        }
+        List<Attribute> lista = this.attributeRepository.listarAtributosCuenta(1);
         model.addAttribute("attributesList", lista);
         return "listadoAtributos";
     }
@@ -76,12 +71,10 @@ public class AttributeController {
             attribute.setIdAttribute(-1);
 
             model.addAttribute("attribute", attribute);
-
             model.addAttribute("attributeTypes", AttributeType.values());
 
             return "atributo";
         }
-
     }
 
     @PostMapping("/guardar")

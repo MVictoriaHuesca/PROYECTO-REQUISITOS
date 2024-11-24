@@ -3,6 +3,7 @@ package es.ir.minipim.controller;
 import es.ir.minipim.dao.AccountCategoryRepository;
 import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.CategoryRepository;
+import es.ir.minipim.dao.ProductRepository;
 import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.AttributeUI;
 import es.ir.minipim.ui.CategoryUI;
@@ -30,6 +31,9 @@ public class CategoryController {
     @Autowired
     protected AccountCategoryRepository accountCategoryRepository;
 
+    @Autowired
+    protected ProductRepository productRepository;
+
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
         List<AccountCategory> lista = this.accountCategoryRepository.findByAccountId(1);
@@ -39,8 +43,25 @@ public class CategoryController {
 
     @GetMapping("/delete")
     public String doBorrar (@RequestParam("id") Integer id, HttpSession session) {
+        Category category = this.categoryRepository.findById(id).get();
+        // Eliminar attributo de los productos asociados
+        List<ProductCategory> productCategories = category.getProductCategories();
+        for(ProductCategory pc : productCategories){
+            Product p = this.productRepository.findById(pc.getProductIdFk().getId()).get();
+            List<ProductCategory> categories = p.getProductCategories();
+            categories.remove(pc);
+            p.setProductCategories(categories);
+        }
 
-        this.categoryRepository.deleteById(id);
+        // Eliminar atributo de las cuentas asociadas
+        List<Account> accounts = category.getAccounts();
+        for(Account a : accounts){
+            List<Category> categories = a.getCategories();
+            categories.remove(category);
+            a.setCategories(categories);
+        }
+
+        this.categoryRepository.delete(category);
 
         return "redirect:/categories/";
     }
@@ -50,6 +71,7 @@ public class CategoryController {
 
         CategoryUI categoria = new CategoryUI();
         categoria.setIdCategory(-1);
+        categoria.setAccount(this.accountRepository.findById(1).get());
         model.addAttribute("categoria", categoria);
 
         return "crearCategoria";    //"newCategory"
@@ -58,8 +80,12 @@ public class CategoryController {
     @GetMapping("/edit")
     public String doEditar(@RequestParam("id") Integer id, Model model){
         Category categoria = this.categoryRepository.findById(id).get();
-        model.addAttribute("categoria", categoria);
-
+        CategoryUI categoryUI = new CategoryUI();
+        categoryUI.setIdCategory(categoria.getId());
+        categoryUI.setName(categoria.getCategoryName());
+        categoryUI.setAccount(categoria.getAccountIdFk());
+        model.addAttribute("category", categoryUI);
+        model.addAttribute("categoryModel", new CategoryUI());
 
         return "editarCategoria";
     }

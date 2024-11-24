@@ -58,7 +58,7 @@ public class ProductController {
         }
 
         // Categorias
-        List<ProductCategory> productCategories = (List<ProductCategory>) producto.getProductCategories();
+        List<ProductCategory> productCategories =  producto.getProductCategories();
         List<Category> categories = new ArrayList<>();
         for(ProductCategory p : productCategories){
             categories.add(p.getCategoryIdFk());

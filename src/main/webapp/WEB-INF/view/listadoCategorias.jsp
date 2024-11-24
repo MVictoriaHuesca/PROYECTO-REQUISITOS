@@ -94,7 +94,7 @@
         </td>
         <td class="delete-icon">
             <a href="javascript:void(0);"
-               onclick="confirmarEliminacion('/categories/borrar?id=<%= categoria.getCategoryIdFk().getId() %>')">
+               onclick="confirmarEliminacion('/categories/delete?id=<%= categoria.getCategoryIdFk().getId() %>')">
                 <img src="/Images/eliminar.png" alt="Delete" width="20px" height="20px" />
             </a>
         </td>
