@@ -30,6 +30,6 @@ public class Category {
     private List<Account> accounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "categoryIdFk")
-    private List<es.ir.minipim.entity.ProductCategory> productCategories = new ArrayList<>();
+    private List<ProductCategory> productCategories = new ArrayList<>();
 
 }

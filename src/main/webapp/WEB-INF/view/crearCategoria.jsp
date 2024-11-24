@@ -2,10 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.ir.minipim.entity.Product" %>
-<%
-    // Suponiendo que la lista de posibles productos está disponible en el request
-    List<Product> productos = (List<Product>) request.getAttribute("productos");
-%>
+<%@ page import="es.ir.minipim.entity.Category" %>
 <html>
 <head>
 
@@ -43,13 +40,12 @@
 <body>
 <jsp:include page="cabecera.jsp" />
     <h1>Add Category</h1>
-<%--@elvariable id="category" type=""--%>
-    <form:form method="post" action="/categories/save" modelAttribute="category">
-        <form:hidden path="id" />
+    <form:form method="post" action="/categories/save" modelAttribute="categoria">
+        <form:hidden path="idCategory" />
         <table>
             <tr>
                 <th>Category Name:</th>
-                <td><form:input path="categoryName" size="50" maxlength="50"/></td>
+                <td><form:input path="name" size="50" maxlength="50"/></td>
                 <td colspan="2" style="text-align: center;">
                     <button type="submit">Accept</button>
                 </td>

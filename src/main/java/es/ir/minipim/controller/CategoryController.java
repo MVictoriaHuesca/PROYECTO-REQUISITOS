@@ -48,8 +48,9 @@ public class CategoryController {
     @GetMapping("/new")
     public String doNuevo (Model model, HttpSession session) {
 
-        Category categoria = new Category();
-        model.addAttribute("category", categoria);
+        CategoryUI categoria = new CategoryUI();
+        categoria.setIdCategory(-1);
+        model.addAttribute("categoria", categoria);
 
         return "crearCategoria";    //"newCategory"
     }
@@ -65,30 +66,26 @@ public class CategoryController {
 
     @PostMapping("/save")
     public String doGuardar (@ModelAttribute("category") CategoryUI theCategory, HttpSession session) {
-        // Carga de la cuenta asociada
-        Account account = this.accountRepository.findById(1).get();
-        Category categoria;
+        Category category = this.categoryRepository.findById(theCategory.getIdCategory()).orElse(new Category());
+        boolean isNew = category.getId() == null;
 
-        // Si el ID de la categoría es null, crea una nueva categoría, sino, actualiza la existente
-        if (theCategory.getIdCategory() != null) {
-            categoria = this.categoryRepository.findById(theCategory.getIdCategory())
-                    .orElseThrow(() -> new IllegalArgumentException("Category not found"));
-        } else {
-            categoria = new Category(); // Nueva categoría
+        category.setCategoryName(theCategory.getName());
+        category.setCreatedAt(Instant.now());
+        this.categoryRepository.save(category);
+
+        if (isNew) {
+            Account account = this.accountRepository.findById(1).get();
+            AccountCategoryId accountCategoryId = new AccountCategoryId();
+            accountCategoryId.setAccountIdFk(account.getId());
+            accountCategoryId.setCategoryIdFk(category.getId());
+
+            AccountCategory accountCategory = new AccountCategory();
+            accountCategory.setId(accountCategoryId);
+            accountCategory.setAccountIdFk(account);
+            accountCategory.setCategoryIdFk(category);
+
+            this.accountCategoryRepository.save(accountCategory);
         }
-        // Actualización de la categoría
-        categoria.setCategoryName(theCategory.getName());  // Asegúrate de que 'theCategory.getName()' no sea null
-        categoria.setCreatedAt(Instant.now());
-        this.categoryRepository.save(categoria);    /// ME DA ERROR EN ESTA LINEA
-
-        // Relación AccountCategory (opcional, solo si necesitas crearla)
-        AccountCategory accountCategory = new AccountCategory();
-        accountCategory.setAccountIdFk(account);
-        accountCategory.setCategoryIdFk(categoria);
-
-        // Guardado final (actualización de la relación)
-        account.getCategories().add(categoria);
-        this.accountRepository.save(account);
 
         return "redirect:/categories/";
     }
