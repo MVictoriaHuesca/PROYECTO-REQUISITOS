@@ -1,8 +1,9 @@
 <%@ page import="es.ir.minipim.entity.Category" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.ir.minipim.entity.AccountCategory" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Category> lista = (List<Category>) request.getAttribute("lista");
+    List<AccountCategory> lista = (List<AccountCategory>) request.getAttribute("lista");
 %>
 <html>
 <head>
@@ -76,23 +77,24 @@
         <th>Delete</th>
     </tr>
         <%
-        for (Category categoria : lista) {
+        for (AccountCategory categoria : lista) {
             int numeroProductos = categoria.getId() != null
-                                  ? categoria.getProductCategories().size()
+                                  ? categoria.getCategoryIdFk().getProductCategories().size()
                                   : 0;
+
     %>
     <tr>
-        <td><%= categoria.getCategoryName() %></td>
+        <td><%= categoria.getCategoryIdFk().getCategoryName() %></td>
         <td><%= numeroProductos %></td>
-        <td><%= categoria.getCreatedAt() %></td>
+        <td><%= categoria.getCategoryIdFk().getCreatedAt() %></td>
         <td class="edit-icon">
-            <a href="/categories/edit?id=<%= categoria.getId() %>">
+            <a href="/categories/edit?id=<%= categoria.getCategoryIdFk().getId()%>">
                 <img src="/Images/editar.png" alt="Edit" width="20px" height="20px" />
             </a>
         </td>
         <td class="delete-icon">
             <a href="javascript:void(0);"
-               onclick="confirmarEliminacion('/categories/borrar?id=<%= categoria.getId() %>')">
+               onclick="confirmarEliminacion('/categories/borrar?id=<%= categoria.getCategoryIdFk().getId() %>')">
                 <img src="/Images/eliminar.png" alt="Delete" width="20px" height="20px" />
             </a>
         </td>

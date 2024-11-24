@@ -12,9 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -49,9 +47,9 @@ public class AttributeController {
     @GetMapping("/crear")
     public String doNuevo (Model model) {
         Account account = this.accountRepository.findById(1).get();
-        /*if(account.getAttributes().size() >= 5){
+        if(account.getAttributes().size() >= 5){
             return "alerta";
-        }else {*/
+        }else {
 
             AttributeUI attribute = new AttributeUI();
             attribute.setIdAttribute(-1);
@@ -61,6 +59,7 @@ public class AttributeController {
             model.addAttribute("attributeTypes", AttributeType.values());
 
             return "atributo";
+        }
 
     }
 
@@ -69,25 +68,19 @@ public class AttributeController {
         Account account = this.accountRepository.findById(1).get();
         Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
 
-        //attribute.setAccountByAccountIdFk(this.accountRepository.findById((Integer) session.getAttribute("account")).get());
-        attribute.setAccountIdFk(this.accountRepository.findById(1).get());
+        // Añadir el nuevo atributo a la lista de atributos de la cuenta
+        List<Attribute> attributes = account.getAttributes();
+        attributes.add(attribute);
+        account.setAttributes(attributes);
+
+        // Gurdar el atributo, asociar la cuenta al atributo
+        attribute.setAccountIdFk(account);
         attribute.setAttributeName(theAttribute.getName());
         attribute.setAttributeType(theAttribute.getType().toString());
         attribute.setCreatedAt(Instant.now());
+        List<Account> accounts = attribute.getAccounts();
+        accounts.add(account);
         this.attributeRepository.save(attribute);
-
-        AccountAttribute accountAttribute = new AccountAttribute();
-        accountAttribute.setAccountIdFk(account);
-        accountAttribute.setAttributeIdFk(attribute);
-
-        AccountAttributeId accountAttributeId = new AccountAttributeId();
-        accountAttributeId.setAccountIdFk(account.getId());
-        accountAttributeId.setAttributeIdFk(attribute.getId());
-        accountAttribute.setId(accountAttributeId);
-
-        //account.getAttributes().add(attribute);
-        //this.accountRepository.save(account);
-
 
         return "redirect:/attributes/";
     }

@@ -4,7 +4,7 @@
 <%@ page import="es.ir.minipim.entity.Product" %>
 <%
     // Suponiendo que la lista de posibles productos está disponible en el request
-    //List<Product> productos = (List<Product>) request.getAttribute("productos");
+    List<Product> productos = (List<Product>) request.getAttribute("productos");
 %>
 <html>
 <head>

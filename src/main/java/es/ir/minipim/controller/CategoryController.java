@@ -1,5 +1,6 @@
 package es.ir.minipim.controller;
 
+import es.ir.minipim.dao.AccountCategoryRepository;
 import es.ir.minipim.dao.AccountRepository;
 import es.ir.minipim.dao.CategoryRepository;
 import es.ir.minipim.entity.*;
@@ -26,9 +27,12 @@ public class CategoryController {
     @Autowired
     protected AccountRepository accountRepository;
 
+    @Autowired
+    protected AccountCategoryRepository accountCategoryRepository;
+
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
-        List<Category> lista = this.categoryRepository.findAll();
+        List<AccountCategory> lista = this.accountCategoryRepository.findByAccountId(1);
         model.addAttribute("lista", lista);
         return "listadoCategorias";
     }
@@ -53,10 +57,10 @@ public class CategoryController {
     @GetMapping("/edit")
     public String doEditar(@RequestParam("id") Integer id, Model model){
         Category categoria = this.categoryRepository.findById(id).get();
-        categoria.getProductCategories(); // Quiero las categorias
+        model.addAttribute("categoria", categoria);
 
 
-        return "editarProducto";
+        return "editarCategoria";
     }
 
     @PostMapping("/save")
