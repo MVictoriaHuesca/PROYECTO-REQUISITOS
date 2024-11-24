@@ -109,7 +109,7 @@
         for (Attribute attribute : list) {
     %>
     <tr>
-        <td><%=attribute.getAttributeType()%></td>
+        <td><%=attribute.getAttributeType().toString()%></td>
         <td>
             <a href="/attributes/details?id=<%= attribute.getId() %>">
                 <%= attribute.getAttributeName() %>

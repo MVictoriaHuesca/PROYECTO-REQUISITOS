@@ -1,8 +1,6 @@
 package es.ir.minipim.controller;
 
-import es.ir.minipim.dao.AccountAttributeRepository;
-import es.ir.minipim.dao.AccountRepository;
-import es.ir.minipim.dao.AttributeRepository;
+import es.ir.minipim.dao.*;
 
 import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.AttributeUI;
@@ -13,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,10 +24,17 @@ public class AttributeController {
     protected AccountRepository accountRepository;
     @Autowired
     protected AccountAttributeRepository accountAttributeRepository;
+    @Autowired
+    protected ProductRepository productRepository;
 
     @GetMapping("/")
     public String doListar(Model model){
-        List<Attribute> lista = this.attributeRepository.listarAtributosCuenta(1);
+        List<Attribute> lista;
+        if(this.attributeRepository.listarAtributosCuenta(1).size() == 0){
+            lista = new ArrayList<>();
+        } else {
+            lista = this.attributeRepository.listarAtributosCuenta(1);
+        }
         model.addAttribute("attributesList", lista);
         return "listadoAtributos";
     }
@@ -36,10 +42,25 @@ public class AttributeController {
     @GetMapping("/borrar")
     public String doBorrar (@RequestParam("id") Integer id) {
         Attribute attribute = this.attributeRepository.findById(id).get();
-        List<AccountAttribute> accountAttribute = this.accountAttributeRepository.atributosDeCuenta(attribute);
-        this.accountAttributeRepository.deleteAll(accountAttribute);
 
-        this.attributeRepository.deleteById(id);
+        // Eliminar attributo de los productos asociados
+        List<ProductAttribute> productAttributes = attribute.getProductAttributes();
+        for(ProductAttribute pa : productAttributes){
+            Product p = this.productRepository.findById(pa.getProductIdFk().getId()).get();
+            List<ProductAttribute> attributes = p.getProductAttributes();
+            attributes.remove(pa);
+            p.setProductAttributes(attributes);
+        }
+
+        // Eliminar atributo de las cuentas asociadas
+        List<Account> accounts = attribute.getAccounts();
+        for(Account a : accounts){
+            List<Attribute> attributes = a.getAttributes();
+            attributes.remove(attribute);
+            a.setAttributes(attributes);
+        }
+
+        this.attributeRepository.delete(attribute);
 
         return "redirect:/attributes/";
     }
@@ -68,7 +89,8 @@ public class AttributeController {
         Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
         boolean isNew = attribute.getId() == null;
 
-        attribute.setAttributeType(theAttribute.getType().toString());
+        attribute.setAttributeName(theAttribute.getName());
+        attribute.setAttributeType(theAttribute.getType());
         attribute.setCreatedAt(Instant.now());
 
         if (isNew) {
@@ -98,11 +120,7 @@ public class AttributeController {
         attributeUI.setIdAttribute(attribute.getId());
         attributeUI.setName(attribute.getAttributeName());
         attributeUI.setAccount(attribute.getAccountIdFk());
-        for(AttributeType type : AttributeType.values()){
-            if(type.toString().equals(attribute.getAttributeType())){
-                attributeUI.setType(type);
-            }
-        }
+        attribute.setAttributeType(attribute.getAttributeType());
         model.addAttribute("attributeModel", new AttributeUI());
         model.addAttribute("attribute", attributeUI);
         model.addAttribute("attributeTypes", AttributeType.values());

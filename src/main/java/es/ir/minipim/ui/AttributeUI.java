@@ -10,7 +10,7 @@ import java.time.Instant;
 
 public class AttributeUI {
     private String name;
-    private AttributeType type;
+    private String type;
     private Instant date;
     private Account account;
     private Integer idAttribute;
@@ -25,10 +25,10 @@ public class AttributeUI {
         this.name = name;
     }
 
-    public AttributeType getType() {
+    public String getType() {
         return type;
     }
-    public void setType(AttributeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
