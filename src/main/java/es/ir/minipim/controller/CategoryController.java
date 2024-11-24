@@ -1,9 +1,6 @@
 package es.ir.minipim.controller;
 
-import es.ir.minipim.dao.AccountCategoryRepository;
-import es.ir.minipim.dao.AccountRepository;
-import es.ir.minipim.dao.CategoryRepository;
-import es.ir.minipim.dao.ProductRepository;
+import es.ir.minipim.dao.*;
 import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.AttributeUI;
 import es.ir.minipim.ui.CategoryUI;
@@ -34,6 +31,9 @@ public class CategoryController {
     @Autowired
     protected ProductRepository productRepository;
 
+    @Autowired
+    protected ProductCategoryRepository productCategoryRepository;
+
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
         List<AccountCategory> lista = this.accountCategoryRepository.findByAccountId(1);
@@ -51,7 +51,9 @@ public class CategoryController {
             List<ProductCategory> categories = p.getProductCategories();
             categories.remove(pc);
             p.setProductCategories(categories);
+            this.productRepository.save(p);
         }
+        this.productCategoryRepository.deleteAll(productCategories);
 
         // Eliminar atributo de las cuentas asociadas
         List<Account> accounts = category.getAccounts();
@@ -59,6 +61,7 @@ public class CategoryController {
             List<Category> categories = a.getCategories();
             categories.remove(category);
             a.setCategories(categories);
+            this.accountRepository.save(a);
         }
 
         this.categoryRepository.delete(category);
