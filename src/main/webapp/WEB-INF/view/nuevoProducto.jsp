@@ -4,6 +4,7 @@
 <%@ page import="es.ir.minipim.entity.Attribute" %>
 <%@ page import="es.ir.minipim.entity.ProductAttribute" %>
 <%@ page import="es.ir.minipim.entity.ProductAttributeId" %>
+<%@ page import="es.ir.minipim.entity.Product" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<Attribute> attributes = (List<Attribute>) request.getAttribute("attributes");
@@ -14,7 +15,7 @@
 </head>
 <body>
 <div class="container-cabecera">
-    <jsp:include page="../cabecera.jsp" />
+    <jsp:include page="cabecera.jsp" />
 </div>
 <h1>Product data</h1>
 <form:form method="post" action="/products/save" modelAttribute="product">

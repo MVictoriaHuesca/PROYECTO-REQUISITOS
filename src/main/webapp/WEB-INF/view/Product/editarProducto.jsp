@@ -1,14 +1,22 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="es.ir.minipim.ui.ProductDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="es.ir.minipim.entity.Attribute" %>
+<%@ page import="es.ir.minipim.entity.ProductAttribute" %>
+<%@ page import="es.ir.minipim.entity.ProductAttributeId" %>
+<%@ page import="es.ir.minipim.entity.Product" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%
+    List<Attribute> attributes = (List<Attribute>) request.getAttribute("attributes");
+    List<ProductAttribute> productAttributes = (List<ProductAttribute>) request.getAttribute("productAttributes");
+%>
 <html>
 <head>
     <title>New Product</title>
 </head>
 <body>
 <div class="container-cabecera">
-    <jsp:include page="cabecera.jsp" />
+    <jsp:include page="../cabecera.jsp" />
 </div>
 <h1>Product data</h1>
 <form:form method="post" action="/products/save" modelAttribute="product">
@@ -38,6 +46,26 @@
         <tr>
             <td>Categories:</td>
             <td><form:checkboxes path="categories" items="${categories}" itemLabel="categoryName" itemValue="id" /></td>
+        </tr>
+        <tr>
+            <td>Attributes:</td>
+            <td>
+                <%
+                    for (Attribute att : attributes) {
+                        for (ProductAttribute pa : productAttributes) {
+                            if (pa.getAttributeIdFk().getId().equals(att.getId())) {
+                %>
+                <div>
+                    <label><%= att.getAttributeName() %>:</label>
+                    <form:hidden path="attributeIds" value="<%= att.getId()%>"/>
+                    <form:input path="attributeValues" value="<%=pa.getValue()%>" size="100" maxlength="100"/>
+                </div>
+                <%
+                    }
+                                    }
+                }
+                %>
+            </td>
         </tr>
         <tr>
             <td colspan="2"> <button>Enviar</button></td>
