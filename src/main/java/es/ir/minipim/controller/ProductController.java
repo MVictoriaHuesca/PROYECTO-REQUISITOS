@@ -195,23 +195,26 @@ public class ProductController {
             this.productCategoryRepository.save(productCategory);
         }
 
-        for(Integer id : product.getCategories()){
-            Category categoria = this.categoryRepository.findById(id).get();
-            List<ProductCategory> categories = producto.getProductCategories();
+        int i = 0;
+        for(Integer id : product.getAttributeIds()){
+            Attribute attribute = this.attributeRepository.findById(id).get();
+            List<ProductAttribute> attributes = producto.getProductAttributes();
 
-            ProductCategory productCategory = new ProductCategory();
+            ProductAttribute productAttribute = new ProductAttribute();
 
-            ProductCategoryId productCategoryId = new ProductCategoryId(); // Id compuesto
-            productCategoryId.setCategoryIdFk(id); // Id de la categoria
-            productCategoryId.setProductIdFk(producto.getId()); // Id del producto
-            productCategoryId.setAccountIdFk(account.getId()); // Id de la cuenta
+            ProductAttributeId productAttributeId = new ProductAttributeId(); // Id compuesto
+            productAttributeId.setAttributeIdFk(id); // Id de la categoria
+            productAttributeId.setProductIdFk(producto.getId()); // Id del producto
+            productAttributeId.setAccountIdFk(account.getId()); // Id de la cuenta
 
-            productCategory.setCategoryIdFk(categoria);
-            productCategory.setProductIdFk(producto);
-            productCategory.setId(productCategoryId);
-            productCategory.setAccountIdFk(account);
+            productAttribute.setAttributeIdFk(attribute);
+            productAttribute.setProductIdFk(producto);
+            productAttribute.setId(productAttributeId);
+            productAttribute.setAccountIdFk(account);
+            productAttribute.setValue(product.getAttributeValues().get(i));
+            i++;
 
-            this.productCategoryRepository.save(productCategory);
+            this.productAttributeRepository.save(productAttribute);
         }
 
 

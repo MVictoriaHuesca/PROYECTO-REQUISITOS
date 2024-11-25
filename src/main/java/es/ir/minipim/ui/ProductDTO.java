@@ -16,7 +16,7 @@ public class ProductDTO {
     private Long GTIN;
     private Instant creationDate;
     private List<Integer> categories;
-    private List<Integer> attributesIds;
+    private List<Integer> attributeIds;
     private List<String> attributeValues;
 
 
@@ -28,12 +28,12 @@ public class ProductDTO {
         this.attributeValues = attributeValues;
     }
 
-    public List<Integer> getAttributesIds() {
-        return attributesIds;
+    public List<Integer> getAttributeIds() {
+        return attributeIds;
     }
 
-    public void setAttributesIds(List<Integer> attributesIds) {
-        this.attributesIds = attributesIds;
+    public void setAttributeIds(List<Integer> attributeIds) {
+        this.attributeIds = attributeIds;
     }
 
 

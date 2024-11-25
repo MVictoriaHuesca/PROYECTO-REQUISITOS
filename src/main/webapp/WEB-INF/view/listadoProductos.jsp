@@ -84,13 +84,6 @@
     <th>SKU</th>
     <th>Label</th>
     <th>GTIN</th>
-    <%
-        for(ProductAttribute pa: attributes){
-    %>
-    <th> <%= pa.getAttributeIdFk().getAttributeName() %></th>
-    <%
-        }
-    %>
     <th>Date</th>
     <th>Details</th>
     <th>Edit</th>
@@ -105,19 +98,6 @@
     <td><%= producto.getSku() %></td>
     <td><%= producto.getLabel() %></td>
     <td><%= producto.getGtin() %></td>
-    <%
-        for(ProductAttribute pa: producto.getProductAttributes()){
-          if(pa.getValue() != null){
-    %>
-    <td> <%= pa.getValue() %></td>
-    <%
-          } else {
-    %>
-    <td>Undefined</td>
-    <%
-        }
-      }
-    %>
     <td><%= producto.getCreatedAt() %></td>
     <td><a href="/products/details?id=<%= producto.getId() %>">Details</a></td>
     <td class="action-icons">

@@ -53,8 +53,8 @@
                 %>
                 <div>
                     <label><%= att.getAttributeName() %>:</label>
-                    <form:hidden path="${attributeIds}" value="<%= att.getId()%>"/>
-                    <form:input path="${attributeValues}" size="100" maxlength="100"/>
+                    <form:hidden path="attributeIds" value="<%= att.getId()%>"/>
+                    <form:input path="attributeValues" size="100" maxlength="100"/>
                 </div>
                 <%
                     }
