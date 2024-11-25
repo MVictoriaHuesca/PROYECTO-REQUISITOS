@@ -98,6 +98,7 @@ public class AttributeController {
             attributes.add(attribute);
             account.setAttributes(attributes);
 
+            /*
             List<Product> products = account.getProducts();
             for (Product p : products) {
                 ProductAttribute pa = new ProductAttribute();
@@ -111,6 +112,7 @@ public class AttributeController {
                 pa.setAccountIdFk(account);
                 this.productAttributeRepository.save(pa);
             }
+            */
 
         }
 

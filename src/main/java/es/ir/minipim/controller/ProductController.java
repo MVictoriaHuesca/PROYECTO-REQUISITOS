@@ -13,7 +13,11 @@ import org.w3c.dom.Attr;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/products")
@@ -93,7 +97,7 @@ public class ProductController {
         List<Category> categories = account.getCategories(); // Lista de categorias de la cuenta
         model.addAttribute("categories", categories);
 
-        List<ProductAttribute> attributes = account.getProductAttributes(); // Lista de atributos de la cuenta
+        List<Attribute> attributes = account.getAttributes(); // Lista de atributos de la cuenta
         model.addAttribute("attributes", attributes);
 
         return "/Product/crearProducto";
@@ -128,7 +132,9 @@ public class ProductController {
         for(ProductAttribute pa : productAttributes){
             attributesIds.add(pa.getAttributeIdFk().getId());
         }
-        productDTO.setAtributes(attributesIds);
+        Map<Integer, String> attributeValues = new HashMap<>();
+        //productDTO.setAttributeValues();
+
         model.addAttribute("productAttributes", productAttributes);
 
         return "editarProducto";
@@ -189,31 +195,25 @@ public class ProductController {
             this.productCategoryRepository.save(productCategory);
         }
 
-        // Categorias
-        List<ProductAttribute> atributosDelProducto = producto.getProductAttributes();
+        for(Integer id : product.getCategories()){
+            Category categoria = this.categoryRepository.findById(id).get();
+            List<ProductCategory> categories = producto.getProductCategories();
 
-        for(ProductAttribute pa : atributosDelProducto){
-            this.productAttributeRepository.delete(pa);
+            ProductCategory productCategory = new ProductCategory();
+
+            ProductCategoryId productCategoryId = new ProductCategoryId(); // Id compuesto
+            productCategoryId.setCategoryIdFk(id); // Id de la categoria
+            productCategoryId.setProductIdFk(producto.getId()); // Id del producto
+            productCategoryId.setAccountIdFk(account.getId()); // Id de la cuenta
+
+            productCategory.setCategoryIdFk(categoria);
+            productCategory.setProductIdFk(producto);
+            productCategory.setId(productCategoryId);
+            productCategory.setAccountIdFk(account);
+
+            this.productCategoryRepository.save(productCategory);
         }
 
-        for(Integer id : product.getAtributes()){
-            Attribute atributo = this.attributeRepository.findById(id).get();
-            List<ProductAttribute> attributes = producto.getProductAttributes();
-
-            ProductAttribute productAttribute = new ProductAttribute();
-
-            ProductAttributeId productAttributeId = new ProductAttributeId(); // Id compuesto
-            productAttributeId.setAttributeIdFk(id); // Id del atributo
-            productAttributeId.setProductIdFk(producto.getId()); // Id del producto
-            productAttributeId.setAccountIdFk(account.getId()); // Id de la cuenta
-
-            productAttribute.setAttributeIdFk(atributo);
-            productAttribute.setProductIdFk(producto);
-            productAttribute.setId(productAttributeId);
-            productAttribute.setAccountIdFk(account);
-
-            this.productAttributeRepository.save(productAttribute);
-        }
 
 
         return "redirect:/products/";

@@ -6,7 +6,7 @@
 <%@ page import="es.ir.minipim.entity.ProductAttributeId" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<ProductAttribute> attributes = (List<ProductAttribute>) request.getAttribute("attributes");
+    List<Attribute> attributes = (List<Attribute>) request.getAttribute("attributes");
 %>
 <html>
 <head>
@@ -47,15 +47,19 @@
         </tr>
         <tr>
             <td>Attributes:</td>
-            <%
-                for (ProductAttribute att : attributes) {
-            %>
             <td>
-                <form:input path="attributeValues[<%= att.getAttributeIdFk().getId() %>]" size="100" maxlength="100"/>
+                <%
+                    for (Attribute att : attributes) {
+                %>
+                <div>
+                    <label><%= att.getAttributeName() %>:</label>
+                    <form:hidden path="${attributeIds}" value="<%= att.getId()%>"/>
+                    <form:input path="${attributeValues}" size="100" maxlength="100"/>
+                </div>
+                <%
+                    }
+                %>
             </td>
-            <%
-                }
-            %>
         </tr>
         <tr>
             <td colspan="2"> <button>Enviar</button></td>
