@@ -24,6 +24,8 @@ public class AttributeController {
     protected AccountAttributeRepository accountAttributeRepository;
     @Autowired
     protected ProductRepository productRepository;
+    @Autowired
+    protected ProductAttributeRepository productAttributeRepository;
 
     @GetMapping("/")
     public String doListar(Model model){
@@ -36,23 +38,20 @@ public class AttributeController {
     public String doBorrar (@RequestParam("id") Integer id) {
         Attribute attribute = this.attributeRepository.findById(id).get();
 
-        // Eliminar attributo de los productos asociados
         List<ProductAttribute> productAttributes = attribute.getProductAttributes();
-        for(ProductAttribute pa : productAttributes){
-            Product p = this.productRepository.findById(pa.getProductIdFk().getId()).get();
-            List<ProductAttribute> attributes = p.getProductAttributes();
-            attributes.remove(pa);
-            p.setProductAttributes(attributes);
-            this.productRepository.save(p);
+        for (ProductAttribute pa : productAttributes) {
+            this.productAttributeRepository.delete(pa);
         }
 
-        // Eliminar atributo de las cuentas asociadas
+        List<AccountAttribute> accountAttributes = this.accountAttributeRepository.findByAttributeId(attribute.getId());
+        for (AccountAttribute aa : accountAttributes) {
+            this.accountAttributeRepository.delete(aa);
+        }
+
         List<Account> accounts = attribute.getAccounts();
-        for(Account a : accounts){
-            List<Attribute> attributes = a.getAttributes();
-            attributes.remove(attribute);
-            a.setAttributes(attributes);
-            this.accountRepository.save(a);
+        for (Account account : accounts) {
+            account.getAttributes().remove(attribute);
+            this.accountRepository.save(account);
         }
 
         this.attributeRepository.delete(attribute);
@@ -99,18 +98,20 @@ public class AttributeController {
             attributes.add(attribute);
             account.setAttributes(attributes);
 
-            List<ProductAttribute> productAttributes = account.getProductAttributes();
-            ProductAttribute pa = new ProductAttribute();
-            pa.setAttributeIdFk(attribute);
-            pa.setAccountIdFk(account);
-            productAttributes.add(pa);
-            account.setProductAttributes(productAttributes);
-
-            for(Product p : account.getProducts()){
-                p.setProductAttributes(productAttributes);
-                this.productRepository.save(p);
+            List<Product> products = account.getProducts();
+            for (Product p : products) {
+                ProductAttribute pa = new ProductAttribute();
+                ProductAttributeId paId = new ProductAttributeId();
+                paId.setProductIdFk(p.getId());
+                paId.setAttributeIdFk(attribute.getId());
+                paId.setAccountIdFk(account.getId());
+                pa.setId(paId);
+                pa.setProductIdFk(p);
+                pa.setAttributeIdFk(attribute);
+                pa.setAccountIdFk(account);
+                this.productAttributeRepository.save(pa);
             }
-            this.accountRepository.save(account);
+
         }
 
         this.attributeRepository.save(attribute);

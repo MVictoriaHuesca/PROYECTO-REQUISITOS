@@ -34,6 +34,12 @@ public class ProductController {
     @Autowired
     protected ProductCategoryRepository productCategoryRepository;
 
+    @Autowired
+    protected ProductAttributeRepository productAttributeRepository;
+
+    @Autowired
+    protected AttributeRepository attributeRepository;
+
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
         if(session.getAttribute("account") == null) {
@@ -87,7 +93,10 @@ public class ProductController {
         List<Category> categories = account.getCategories(); // Lista de categorias de la cuenta
         model.addAttribute("categories", categories);
 
-        return "editarProducto";
+        List<ProductAttribute> attributes = account.getProductAttributes(); // Lista de atributos de la cuenta
+        model.addAttribute("attributes", attributes);
+
+        return "/Product/crearProducto";
     }
 
     @GetMapping("/edit")
@@ -114,15 +123,12 @@ public class ProductController {
         productDTO.setCategories(categoriesIds);
         model.addAttribute("productCategories", productCategories);
 
-        List<Attribute> attributes = account.getAttributes();
-        model.addAttribute("attributes", attributes);
-
         List<ProductAttribute> productAttributes = producto.getProductAttributes();
         List<Integer> attributesIds = new ArrayList<>();
         for(ProductAttribute pa : productAttributes){
             attributesIds.add(pa.getAttributeIdFk().getId());
         }
-        productDTO.setAtributes(productAttributes);
+        productDTO.setAtributes(attributesIds);
         model.addAttribute("productAttributes", productAttributes);
 
         return "editarProducto";
@@ -183,6 +189,32 @@ public class ProductController {
             this.productCategoryRepository.save(productCategory);
         }
 
+        // Categorias
+        List<ProductAttribute> atributosDelProducto = producto.getProductAttributes();
+
+        for(ProductAttribute pa : atributosDelProducto){
+            this.productAttributeRepository.delete(pa);
+        }
+
+        for(Integer id : product.getAtributes()){
+            Attribute atributo = this.attributeRepository.findById(id).get();
+            List<ProductAttribute> attributes = producto.getProductAttributes();
+
+            ProductAttribute productAttribute = new ProductAttribute();
+
+            ProductAttributeId productAttributeId = new ProductAttributeId(); // Id compuesto
+            productAttributeId.setAttributeIdFk(id); // Id del atributo
+            productAttributeId.setProductIdFk(producto.getId()); // Id del producto
+            productAttributeId.setAccountIdFk(account.getId()); // Id de la cuenta
+
+            productAttribute.setAttributeIdFk(atributo);
+            productAttribute.setProductIdFk(producto);
+            productAttribute.setId(productAttributeId);
+            productAttribute.setAccountIdFk(account);
+
+            this.productAttributeRepository.save(productAttribute);
+        }
+
 
         return "redirect:/products/";
     }
@@ -196,6 +228,9 @@ public class ProductController {
 
         List<ProductCategory> categoriasDelProducto = producto.getProductCategories();
         this.productCategoryRepository.deleteAll(categoriasDelProducto);
+
+        List<ProductAttribute> atributosDelProducto = producto.getProductAttributes();
+        this.productAttributeRepository.deleteAll(atributosDelProducto);
 
         this.productRepository.deleteById(id);
         return "redirect:/products/";

@@ -107,7 +107,7 @@
     <td><%= producto.getGtin() %></td>
     <%
         for(ProductAttribute pa: producto.getProductAttributes()){
-          if(!pa.getValue().isEmpty()){
+          if(pa.getValue() != null){
     %>
     <td> <%= pa.getValue() %></td>
     <%

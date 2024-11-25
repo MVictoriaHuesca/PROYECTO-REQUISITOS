@@ -14,4 +14,6 @@ public interface AccountAttributeRepository extends JpaRepository<AccountAttribu
     @Query("select ap from AccountAttribute ap where ap.attributeIdFk = :attribute")
     public List<AccountAttribute> atributosDeCuenta(@Param("attribute") Attribute attribute);
 
+    @Query("select a from AccountAttribute a where a.accountIdFk.id = :attributeId")
+    List<AccountAttribute> findByAttributeId(@Param("attributeId") Integer attributeId);
 }

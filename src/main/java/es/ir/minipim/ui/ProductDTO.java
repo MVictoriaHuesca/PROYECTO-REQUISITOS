@@ -7,6 +7,7 @@ import es.ir.minipim.entity.ProductCategory;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDTO {
     private Integer id;
@@ -15,7 +16,7 @@ public class ProductDTO {
     private Long GTIN;
     private Instant creationDate;
     private List<Integer> categories;
-    private List<ProductAttribute> atributes;
+    private Map<Integer, String> attributeValues;
 
     public ProductDTO() {
     }
@@ -68,11 +69,11 @@ public class ProductDTO {
         this.categories = categories;
     }
 
-    public List<ProductAttribute> getAtributes() {
-        return atributes;
+    public Map<Integer, String> getAttributeValues() {
+        return attributeValues;
     }
 
-    public void setAtributes(List<ProductAttribute> atributes) {
-        this.atributes = atributes;
+    public void setAttributeValues(Map<Integer, String> attributeValues) {
+        this.attributeValues = attributeValues;
     }
 }
