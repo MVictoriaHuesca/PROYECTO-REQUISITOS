@@ -4,14 +4,12 @@ import es.ir.minipim.dao.*;
 
 import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.AttributeUI;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -45,6 +43,7 @@ public class AttributeController {
             List<ProductAttribute> attributes = p.getProductAttributes();
             attributes.remove(pa);
             p.setProductAttributes(attributes);
+            this.productRepository.save(p);
         }
 
         // Eliminar atributo de las cuentas asociadas
@@ -53,6 +52,7 @@ public class AttributeController {
             List<Attribute> attributes = a.getAttributes();
             attributes.remove(attribute);
             a.setAttributes(attributes);
+            this.accountRepository.save(a);
         }
 
         this.attributeRepository.delete(attribute);
@@ -66,7 +66,6 @@ public class AttributeController {
         if(account.getAttributes().size() >= 5){
             return "alerta";
         }else {
-
             AttributeUI attribute = new AttributeUI();
             attribute.setIdAttribute(-1);
 

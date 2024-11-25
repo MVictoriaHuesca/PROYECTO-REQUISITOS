@@ -130,6 +130,17 @@ public class ProductController {
 
         // Asociar producto a cuenta
         if(isNew){
+            List<Product> products = account.getProducts();
+            products.add(producto);
+            account.setProducts(products);
+            this.accountRepository.save(account);
+
+            List<Account> accounts = producto.getAccounts();
+            accounts.add(account);
+            producto.setAccounts(accounts);
+            this.productRepository.save(producto);
+
+            /*
             AccountProduct accountProduct = new AccountProduct();
 
             AccountProductId accountProductId = new AccountProductId(); // Id compuesto
@@ -141,6 +152,7 @@ public class ProductController {
             accountProduct.setAccountIdFk(account);
 
             this.accountProductRepository.save(accountProduct);
+            */
         }
 
         // Categorias
@@ -152,6 +164,8 @@ public class ProductController {
 
         for(Integer id : product.getCategories()){
             Category categoria = this.categoryRepository.findById(id).get();
+            List<ProductCategory> categories = producto.getProductCategories();
+            
             ProductCategory productCategory = new ProductCategory();
 
             ProductCategoryId productCategoryId = new ProductCategoryId(); // Id compuesto
