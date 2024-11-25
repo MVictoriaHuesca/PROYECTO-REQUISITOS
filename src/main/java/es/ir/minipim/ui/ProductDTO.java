@@ -1,5 +1,6 @@
 package es.ir.minipim.ui;
 
+import es.ir.minipim.entity.AccountAttribute;
 import es.ir.minipim.entity.ProductAttribute;
 import es.ir.minipim.entity.ProductCategory;
 
@@ -14,6 +15,7 @@ public class ProductDTO {
     private Long GTIN;
     private Instant creationDate;
     private List<Integer> categories;
+    private List<ProductAttribute> atributes;
 
     public ProductDTO() {
     }
@@ -64,5 +66,13 @@ public class ProductDTO {
 
     public void setCategories(List<Integer> categories) {
         this.categories = categories;
+    }
+
+    public List<ProductAttribute> getAtributes() {
+        return atributes;
+    }
+
+    public void setAtributes(List<ProductAttribute> atributes) {
+        this.atributes = atributes;
     }
 }

@@ -96,7 +96,7 @@ public class ProductController {
         productDTO.setLabel(producto.getLabel());
         productDTO.setSKU(producto.getSku());
         productDTO.setGTIN(producto.getGtin());
-        productDTO.setCreationDate(producto.getCreatedAt());
+        //productDTO.setCreationDate(producto.getCreatedAt());
         model.addAttribute("product", productDTO);
 
         Account account = this.accountRepository.findById(1).get();
@@ -110,6 +110,17 @@ public class ProductController {
         }
         productDTO.setCategories(categoriesIds);
         model.addAttribute("productCategories", productCategories);
+
+        List<Attribute> attributes = account.getAttributes();
+        model.addAttribute("attributes", attributes);
+
+        List<ProductAttribute> productAttributes = producto.getProductAttributes();
+        List<Integer> attributesIds = new ArrayList<>();
+        for(ProductAttribute pa : productAttributes){
+            attributesIds.add(pa.getAttributeIdFk().getId());
+        }
+        productDTO.setAtributes(productAttributes);
+        model.addAttribute("productAttributes", productAttributes);
 
         return "editarProducto";
     }
@@ -163,7 +174,9 @@ public class ProductController {
         }
 
         for(Integer id : product.getCategories()){
-            Category categoria = new Category();
+            Category categoria = this.categoryRepository.findById(id).get();
+            List<ProductCategory> categories = producto.getProductCategories();
+
             ProductCategory productCategory = new ProductCategory();
 
             ProductCategoryId productCategoryId = new ProductCategoryId(); // Id compuesto
@@ -178,6 +191,7 @@ public class ProductController {
 
             this.productCategoryRepository.save(productCategory);
         }
+
 
         return "redirect:/products/";
     }
