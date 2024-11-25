@@ -98,6 +98,19 @@ public class AttributeController {
             List<Attribute> attributes = account.getAttributes();
             attributes.add(attribute);
             account.setAttributes(attributes);
+
+            List<ProductAttribute> productAttributes = account.getProductAttributes();
+            ProductAttribute pa = new ProductAttribute();
+            pa.setAttributeIdFk(attribute);
+            pa.setAccountIdFk(account);
+            productAttributes.add(pa);
+            account.setProductAttributes(productAttributes);
+
+            for(Product p : account.getProducts()){
+                p.setProductAttributes(productAttributes);
+                this.productRepository.save(p);
+            }
+            this.accountRepository.save(account);
         }
 
         this.attributeRepository.save(attribute);

@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   List<Product> lista = (List<Product>) request.getAttribute("lista");
-  List<Attribute> attributes = (List<Attribute>) request.getAttribute("accountAttributes");
+  List<ProductAttribute> attributes = (List<ProductAttribute>) request.getAttribute("accountAttributes");
 %>
 <html>
 <head>
@@ -85,9 +85,9 @@
     <th>Label</th>
     <th>GTIN</th>
     <%
-        for(Attribute attribute: attributes){
+        for(ProductAttribute pa: attributes){
     %>
-    <th> <%= attribute.getAttributeName() %></th>
+    <th> <%= pa.getAttributeIdFk().getAttributeName() %></th>
     <%
         }
     %>
