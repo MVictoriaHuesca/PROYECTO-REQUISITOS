@@ -1,8 +1,11 @@
 <%@ page import="es.ir.minipim.entity.Product" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.ir.minipim.entity.Attribute" %>
+<%@ page import="es.ir.minipim.entity.ProductAttribute" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   List<Product> lista = (List<Product>) request.getAttribute("lista");
+  List<Attribute> attributes = (List<Attribute>) request.getAttribute("accountAttributes");
 %>
 <html>
 <head>
@@ -81,6 +84,13 @@
     <th>SKU</th>
     <th>Label</th>
     <th>GTIN</th>
+    <%
+        for(Attribute attribute: attributes){
+    %>
+    <th> <%= attribute.getAttributeName() %></th>
+    <%
+        }
+    %>
     <th>Date</th>
     <th>Details</th>
     <th>Edit</th>
@@ -95,6 +105,19 @@
     <td><%= producto.getSku() %></td>
     <td><%= producto.getLabel() %></td>
     <td><%= producto.getGtin() %></td>
+    <%
+        for(ProductAttribute pa: producto.getProductAttributes()){
+          if(!pa.getValue().isEmpty()){
+    %>
+    <td> <%= pa.getValue() %></td>
+    <%
+          } else {
+    %>
+    <td>Undefined</td>
+    <%
+        }
+      }
+    %>
     <td><%= producto.getCreatedAt() %></td>
     <td><a href="/products/details?id=<%= producto.getId() %>">Details</a></td>
     <td class="action-icons">

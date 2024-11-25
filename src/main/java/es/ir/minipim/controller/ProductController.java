@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.w3c.dom.Attr;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -41,9 +42,11 @@ public class ProductController {
         // Obtener lista de productos de un usuario
         Account account = this.accountRepository.findById(1).get();
         List<Product> lista = account.getProducts();
-
+        //List<Attribute> attributes = account.getAttributes();
+        List<ProductAttribute> pa = account.getProductAttributes();
         //List<Product> lista = this.productRepository.findAll();
         model.addAttribute("lista", lista);
+        model.addAttribute("accountAttributes", pa);
         return "listadoProductos";
     }
 
