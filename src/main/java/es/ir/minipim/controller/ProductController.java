@@ -163,9 +163,7 @@ public class ProductController {
         }
 
         for(Integer id : product.getCategories()){
-            Category categoria = this.categoryRepository.findById(id).get();
-            List<ProductCategory> categories = producto.getProductCategories();
-            
+            Category categoria = new Category();
             ProductCategory productCategory = new ProductCategory();
 
             ProductCategoryId productCategoryId = new ProductCategoryId(); // Id compuesto
