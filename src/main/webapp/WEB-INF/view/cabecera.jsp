@@ -25,7 +25,7 @@
         <a class="nav-link" href="/Assets">Assets</a>
         <a class="nav-link" href="/categories/">Categories</a>
         <a class="nav-link" href="/attributes/">Attributes</a>
-        <a class="nav-link" href="/Relationships">Relationships</a>
+        <a class="nav-link" href="/relationships/">Relationships</a>
     </div>
     <div class="container-perfil">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16">

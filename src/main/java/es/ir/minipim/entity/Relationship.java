@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -24,5 +27,11 @@ public class Relationship {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product2_id_fk", nullable = false)
     private Product product2IdFk;
+
+    @ManyToMany(mappedBy = "relationships")
+    private List<Account> accounts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "relationshipIdFk")
+    private List<ProductRelationship> productRelationships = new ArrayList<>();
 
 }
