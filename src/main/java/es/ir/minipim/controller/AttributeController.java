@@ -4,6 +4,7 @@ import es.ir.minipim.dao.*;
 
 import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.AttributeUI;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,20 @@ public class AttributeController {
     protected ProductAttributeRepository productAttributeRepository;
 
     @GetMapping("/")
-    public String doListar(Model model){
+    public String doListar(Model model, HttpSession session) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
+
         List<Attribute> lista = this.attributeRepository.listarAtributosCuenta(1);
         model.addAttribute("attributesList", lista);
         return "listadoAtributos";
     }
 
     @GetMapping("/borrar")
-    public String doBorrar (@RequestParam("id") Integer id) {
+    public String doBorrar (@RequestParam("id") Integer id, HttpSession session, Model model) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
+
         Attribute attribute = this.attributeRepository.findById(id).get();
 
         List<ProductAttribute> productAttributes = attribute.getProductAttributes();
@@ -60,7 +67,9 @@ public class AttributeController {
     }
 
     @GetMapping("/crear")
-    public String doNuevo (Model model) {
+    public String doNuevo (Model model, HttpSession session) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Account account = this.accountRepository.findById(1).get();
         if(account.getAttributes().size() >= 5){
             return "alerta";
@@ -76,7 +85,10 @@ public class AttributeController {
     }
 
     @PostMapping("/guardar")
-    public String doGuardar (@ModelAttribute("attribute") AttributeUI theAttribute) {
+    public String doGuardar (@ModelAttribute("attribute") AttributeUI theAttribute, Model model, HttpSession session) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
+
         Attribute attribute = this.attributeRepository.findById(theAttribute.getIdAttribute()).orElse(new Attribute());
         boolean isNew = attribute.getId() == null;
 
@@ -121,7 +133,10 @@ public class AttributeController {
     }
 
     @GetMapping("/editar")
-    public String doEditar (@RequestParam("id") Integer id, Model model) {
+    public String doEditar (@RequestParam("id") Integer id, Model model, HttpSession session) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
+
         Attribute attribute = this.attributeRepository.findById(id).get();
         AttributeUI attributeUI = new AttributeUI();
         attributeUI.setIdAttribute(attribute.getId());
@@ -136,7 +151,9 @@ public class AttributeController {
     }
 
     @GetMapping("/details")
-    public String doDetails(@RequestParam("id") Integer id, Model model){
+    public String doDetails(@RequestParam("id") Integer id, Model model, HttpSession session) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Attribute attribute = this.attributeRepository.findById(id).get();
         model.addAttribute("attribute", attribute);
         return "consultarAtributo";

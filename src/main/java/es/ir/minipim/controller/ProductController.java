@@ -49,13 +49,16 @@ public class ProductController {
         //List<Attribute> attributes = account.getAttributes();
         List<ProductAttribute> pa = account.getProductAttributes();
         //List<Product> lista = this.productRepository.findAll();
+        model.addAttribute("account", account);
         model.addAttribute("lista", lista);
         model.addAttribute("accountAttributes", pa);
         return "listadoProductos";
     }
 
     @GetMapping("/details")
-    public String doDetails(@RequestParam("id") Integer id, Model model){
+    public String doDetails(@RequestParam("id") Integer id, Model model, HttpSession session){
+        Account account = (Account) session.getAttribute("account");
+        model.addAttribute("account", account);
         Product producto = this.productRepository.findById(id).get();
         // Atributos
         List<ProductAttribute> productAttributes = producto.getProductAttributes();
@@ -82,6 +85,8 @@ public class ProductController {
 
     @GetMapping("/new")
     public String doNuevo(Model model, HttpSession session){
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         ProductDTO producto = new ProductDTO();
         producto.setId(-1);
         producto.setCreationDate(Instant.now());
@@ -101,7 +106,9 @@ public class ProductController {
     }
 
     @GetMapping("/edit")
-    public String doEditar(@RequestParam("id") Integer id, Model model){
+    public String doEditar(@RequestParam("id") Integer id, Model model, HttpSession session){
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Product producto = this.productRepository.findById(id).get();
         producto.getProductCategories(); // Quiero las categorias
         ProductDTO productDTO = new ProductDTO();
@@ -151,7 +158,9 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String doGuardar(@ModelAttribute("product") ProductDTO product, HttpSession session){
+    public String doGuardar(@ModelAttribute("product") ProductDTO product, HttpSession session, Model model){
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Product producto = this.productRepository.findById(product.getId()).orElse(new Product());
         boolean isNew = producto.getId() == null;
 
@@ -233,7 +242,9 @@ public class ProductController {
     }
 
     @GetMapping("/delete")
-    public String doBorrar (@RequestParam("id") Integer id, HttpSession session) {
+    public String doBorrar (@RequestParam("id") Integer id, HttpSession session, Model model) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Product producto = this.productRepository.findById(id).get();
 
         List<AccountProduct> productosDeCuenta = this.accountProductRepository.productosDeCuenta(producto);

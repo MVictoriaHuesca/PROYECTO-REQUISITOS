@@ -87,13 +87,20 @@ CREATE TABLE product_category (
 );
 
 CREATE TABLE relationship (
-	relationship_id INT NOT NULL UNIQUE AUTO_INCREMENT,
+	relationship_id INT NOT NULL AUTO_INCREMENT,
 	name VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP NOT NULL DEFAULT (NOW()),
+    PRIMARY KEY(relationship_id)
+);
+
+CREATE TABLE relationship_product (
+    relationship_id_fk INT NOT NULL,
     product1_id_fk INT NOT NULL,
     product2_id_fk INT NOT NULL,
+    FOREIGN KEY(relationship_id_fk) REFERENCES relationship(relationship_id),
     FOREIGN KEY(product1_id_fk) REFERENCES product(product_id),
     FOREIGN KEY(product2_id_fk) REFERENCES product(product_id),
-    PRIMARY KEY(relationship_id)
+    PRIMARY KEY(relationship_id_fk, product1_id_fk, product2_id_fk)
 );
 
 CREATE TABLE account_relationship (
@@ -103,15 +110,4 @@ CREATE TABLE account_relationship (
     FOREIGN KEY(relationship_id_fk) REFERENCES relationship(relationship_id),
     PRIMARY KEY(account_id_fk, relationship_id_fk)
 );
-
-CREATE TABLE product_relationship (
-	relationship_id_fk INT NOT NULL,
-    product_id_fk INT NOT NULL,
-    account_id_fk INT NOT NULL,
-    FOREIGN KEY(relationship_id_fk) REFERENCES relationship(relationship_id),
-    FOREIGN KEY(product_id_fk) REFERENCES product(product_id),
-    FOREIGN KEY(account_id_fk) REFERENCES account(account_id),
-    PRIMARY KEY(relationship_id_fk, product_id_fk, account_id_fk)
-);
-
   

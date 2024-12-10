@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/relationships")
 public class RelationshipController extends BaseController{
 
-    @GetMapping("/relationships")
-    public String doListar() {
-        return "/Relaciones/listarRelaciones";
-    }
+
 
 }

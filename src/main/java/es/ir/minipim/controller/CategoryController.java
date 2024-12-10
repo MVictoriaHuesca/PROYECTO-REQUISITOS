@@ -36,13 +36,17 @@ public class CategoryController {
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         List<AccountCategory> lista = this.accountCategoryRepository.findByAccountId(1);
         model.addAttribute("lista", lista);
         return "listadoCategorias";
     }
 
     @GetMapping("/delete")
-    public String doBorrar (@RequestParam("id") Integer id, HttpSession session) {
+    public String doBorrar (@RequestParam("id") Integer id, HttpSession session, Model model) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Category category = this.categoryRepository.findById(id).get();
         // Eliminar attributo de los productos asociados
         List<ProductCategory> productCategories = category.getProductCategories();
@@ -71,7 +75,8 @@ public class CategoryController {
 
     @GetMapping("/new")
     public String doNuevo (Model model, HttpSession session) {
-
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         CategoryUI categoria = new CategoryUI();
         categoria.setIdCategory(-1);
         categoria.setAccount(this.accountRepository.findById(1).get());
@@ -81,7 +86,9 @@ public class CategoryController {
     }
 
     @GetMapping("/edit")
-    public String doEditar(@RequestParam("id") Integer id, Model model){
+    public String doEditar(@RequestParam("id") Integer id, Model model, HttpSession session) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Category categoria = this.categoryRepository.findById(id).get();
         CategoryUI categoryUI = new CategoryUI();
         categoryUI.setIdCategory(categoria.getId());
@@ -94,7 +101,9 @@ public class CategoryController {
     }
 
     @PostMapping("/save")
-    public String doGuardar (@ModelAttribute("category") CategoryUI theCategory, HttpSession session) {
+    public String doGuardar (@ModelAttribute("category") CategoryUI theCategory, HttpSession session, Model model) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         Category category = this.categoryRepository.findById(theCategory.getIdCategory()).orElse(new Category());
         boolean isNew = category.getId() == null;
 

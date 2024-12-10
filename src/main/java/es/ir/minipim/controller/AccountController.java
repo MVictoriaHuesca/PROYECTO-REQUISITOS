@@ -9,21 +9,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/home")
-public class HomeController extends BaseController{
+@RequestMapping("/account")
+public class AccountController extends BaseController{
 
     @Autowired
     protected AccountRepository accountRepository;
-    @GetMapping("/")
-    public String doHome(HttpSession session, Model model) {
-        if(session.getAttribute("account") == null) {
+
+    @GetMapping("/info")
+    public String doInfo(HttpSession session, Model model, Integer id) {
+        Account account = this.accountRepository.findById(id).orElse(null);
+        if(account == null) {
             return "redirect:/";
         }
-        Account account = (Account) session.getAttribute("account");
-
         model.addAttribute("account", account);
-        return "home";
-
+        List<Account> users = this.accountRepository.findByGroupName(account.getGroupName());
+        model.addAttribute("users", users);
+        return "/Account/mostrarCuenta";
     }
+
+
 }
