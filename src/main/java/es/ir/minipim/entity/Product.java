@@ -42,4 +42,7 @@ public class Product {
     @OneToMany(mappedBy = "productIdFk")
     private List<es.ir.minipim.entity.ProductCategory> productCategories = new ArrayList<>();
 
+    @OneToMany(mappedBy = "productIdFk")
+    private List<es.ir.minipim.entity.ProductRelationship> productRelationships = new ArrayList<>();
+
 }
