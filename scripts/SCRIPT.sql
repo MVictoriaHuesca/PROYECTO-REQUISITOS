@@ -8,8 +8,8 @@ CREATE TABLE account (
     email_address VARCHAR(50) NOT NULL UNIQUE,
     account_profile_picture VARCHAR(64),
     created_at TIMESTAMP NOT NULL DEFAULT (NOW()),
+    group_name VARCHAR(50) NOT NULL,
     PRIMARY KEY (account_id)
-    -- añadir más atributos
 );
 
 CREATE TABLE product (
@@ -86,6 +86,30 @@ CREATE TABLE product_category (
     PRIMARY KEY(category_id_fk, product_id_fk, account_id_fk)
 );
 
+CREATE TABLE relationship (
+	relationship_id INT NOT NULL UNIQUE AUTO_INCREMENT,
+	name VARCHAR(50) NOT NULL UNIQUE,
+    product1_id_fk INT NOT NULL,
+    product2_id_fk INT NOT NULL,
+    FOREIGN KEY(product1_id_fk) REFERENCES product(product_id),
+    FOREIGN KEY(product2_id_fk) REFERENCES product(product_id),
+    PRIMARY KEY(relationship_id)
+);
 
+CREATE TABLE account_relationship (
+    account_id_fk INT NOT NULL,
+    relationship_id_fk INT NOT NULL,
+    FOREIGN KEY(account_id_fk) REFERENCES account(account_id),
+    FOREIGN KEY(relationship_id_fk) REFERENCES relationship(relationship_id),
+    PRIMARY KEY(account_id_fk, relationship_id_fk)
+);
 
-
+CREATE TABLE product_relationship (
+	relationship_id_fk INT NOT NULL,
+    product_id_fk INT NOT NULL,
+    account_id_fk INT NOT NULL,
+    FOREIGN KEY(relationship_id_fk) REFERENCES relationship(relationship_id),
+    FOREIGN KEY(product_id_fk) REFERENCES product(product_id),
+    FOREIGN KEY(account_id_fk) REFERENCES account(account_id),
+    PRIMARY KEY(relationship_id_fk, product_id_fk, account_id_fk)
+);
