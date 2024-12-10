@@ -71,6 +71,26 @@
       box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Incrementa la sombra */
       transform: translateY(-2px); /* Mueve el botón ligeramente hacia arriba */
     }
+    .export-product {
+      margin: 20px auto; /* Agrega margen superior e inferior */
+      text-align: center; /* Centra el botón horizontalmente */
+    }
+    .export-product a {
+      display: inline-block;
+      padding: 12px 20px; /* Espaciado interno */
+      font-size: 16px; /* Tamaño de la fuente */
+      font-weight: bold; /* Texto en negrita */
+      color: white; /* Color del texto */
+      background-color: #28a745; /* Color verde para el fondo */
+      border-radius: 5px; /* Bordes redondeados */
+      text-decoration: none; /* Elimina el subrayado */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra alrededor */
+      transition: all 0.3s ease; /* Suaviza los cambios al hacer hover */
+    }
+    .export-product a:hover {
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Incrementa la sombra */
+      transform: translateY(-2px); /* Mueve el botón ligeramente hacia arriba */
+    }
   </style>
 </head>
 <body>
@@ -120,6 +140,11 @@
 <div class="add-product">
   <a href="/products/new">
     Add New Product
+  </a>
+</div>
+<div class="export-product">
+  <a href="/products/export">
+    Export
   </a>
 </div>
 </body>

@@ -2,6 +2,7 @@ package es.ir.minipim.controller;
 
 import es.ir.minipim.dao.*;
 import es.ir.minipim.entity.*;
+import es.ir.minipim.ui.Filtro;
 import es.ir.minipim.ui.ProductDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -258,5 +259,21 @@ public class ProductController {
 
         this.productRepository.deleteById(id);
         return "redirect:/products/";
+    }
+
+    @GetMapping("/export")
+    public String doExportar(HttpSession session, Model model){
+        Account account = this.accountRepository.findById(1).get();
+        model.addAttribute("account", account);
+
+        List<Product> lista = account.getProducts();
+        model.addAttribute("lista", lista);
+
+        Filtro filtro = new Filtro();
+        model.addAttribute("filtro", filtro);
+
+        List<Category> categories = account.getCategories(); // Lista de categorias de la cuenta
+        model.addAttribute("categories", categories);
+        return "/Product/exportarProducto";
     }
 }
