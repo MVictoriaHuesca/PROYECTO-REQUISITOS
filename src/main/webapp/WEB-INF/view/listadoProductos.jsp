@@ -102,12 +102,12 @@
     <td><a href="/products/details?id=<%= producto.getId() %>">Details</a></td>
     <td class="action-icons">
       <a href="/products/edit?id=<%= producto.getId() %>">
-        <img src="/Images/editar.png" alt="Editar" title="Editar" />
+        <img src="/Images/editar.png" alt="Edit" title="Edit" />
       </a>
     </td>
     <td class="action-icons">
       <a href="/products/delete?id=<%= producto.getId() %>">
-        <img src="/Images/eliminar.png" alt="Eliminar" title="Eliminar" />
+        <img src="/Images/eliminar.png" alt="Delete" title="Delete" />
       </a>
     </td>
   </tr>

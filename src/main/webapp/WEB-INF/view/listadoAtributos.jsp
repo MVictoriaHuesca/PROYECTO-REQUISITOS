@@ -118,13 +118,13 @@
         <td><%= attribute.getCreatedAt() %></td>
         <td>
             <a href="/attributes/editar?id=<%= attribute.getId() %>">
-                <img src="/Images/editar.png" alt="Editar" />
+                <img src="/Images/editar.png" alt="Edit" />
             </a>
         </td>
         <td>
             <a href="javascript:void(0);"
                onclick="confirmarEliminacion('/attributes/borrar?id=<%= attribute.getId() %>')">
-                <img src="/Images/eliminar.png" alt="Eliminar" width="20px" height="20px" />
+                <img src="/Images/eliminar.png" alt="Delete" width="20px" height="20px" />
             </a>
         </td>
     </tr>

@@ -8,16 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.w3c.dom.Attr;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Controller
 @RequestMapping("/products")
@@ -100,7 +94,10 @@ public class ProductController {
         List<Attribute> attributes = account.getAttributes(); // Lista de atributos de la cuenta
         model.addAttribute("attributes", attributes);
 
-        return "/Product/crearProducto";
+        List<ProductAttribute> productAttributes = account.getProductAttributes();
+        model.addAttribute(("productAttributes"), productAttributes);
+
+        return "nuevoProducto";
     }
 
     @GetMapping("/edit")
@@ -112,13 +109,14 @@ public class ProductController {
         productDTO.setLabel(producto.getLabel());
         productDTO.setSKU(producto.getSku());
         productDTO.setGTIN(producto.getGtin());
-        //productDTO.setCreationDate(producto.getCreatedAt());
+        productDTO.setCreationDate(producto.getCreatedAt());
         model.addAttribute("product", productDTO);
 
         Account account = this.accountRepository.findById(1).get();
         List<Category> categories = account.getCategories(); // Lista de categorias de la cuenta
         model.addAttribute("categories", categories);
 
+        // Categorias
         List<ProductCategory> productCategories = producto.getProductCategories();
         List<Integer> categoriesIds = new ArrayList<>();
         for(ProductCategory pc : productCategories){
@@ -127,17 +125,29 @@ public class ProductController {
         productDTO.setCategories(categoriesIds);
         model.addAttribute("productCategories", productCategories);
 
+        // Atributos
         List<ProductAttribute> productAttributes = producto.getProductAttributes();
         List<Integer> attributesIds = new ArrayList<>();
         for(ProductAttribute pa : productAttributes){
             attributesIds.add(pa.getAttributeIdFk().getId());
         }
-        Map<Integer, String> attributeValues = new HashMap<>();
-        //productDTO.setAttributeValues();
+        productDTO.setAttributeIds(attributesIds);
+        model.addAttribute("productAttributes", productAttributes);
+
+        List<ProductAttribute> productAttributesValues = producto.getProductAttributes();
+        List<String> attributesValues = new ArrayList<>();
+        for(ProductAttribute pa : productAttributesValues){
+            attributesValues.add(pa.getValue());
+        }
+        productDTO.setAttributeValues(attributesValues);
+        model.addAttribute("attributesValue", attributesValues);
+
+        List<Attribute> attributes = account.getAttributes(); // Lista de atributos de la cuenta
+        model.addAttribute("attributes", attributes);
 
         model.addAttribute("productAttributes", productAttributes);
 
-        return "editarProducto";
+        return "/Product/editarProducto";
     }
 
     @PostMapping("/save")
