@@ -113,3 +113,5 @@ CREATE TABLE product_relationship (
     FOREIGN KEY(account_id_fk) REFERENCES account(account_id),
     PRIMARY KEY(relationship_id_fk, product_id_fk, account_id_fk)
 );
+
+  

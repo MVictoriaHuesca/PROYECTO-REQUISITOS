@@ -33,6 +33,10 @@ public class Account {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
+    @Column(name = "group_name", length=50)
+    private String groupName;
+
+
     @ManyToMany
     @JoinTable(name = "account_attribute",
             joinColumns = @JoinColumn(name = "account_id_fk"),
