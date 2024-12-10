@@ -68,10 +68,4 @@ public class Account {
     @OneToMany(mappedBy = "accountIdFk")
     private List<es.ir.minipim.entity.ProductCategory> productCategories = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "account_relationship",
-            joinColumns = @JoinColumn(name = "account_id_fk"),
-            inverseJoinColumns = @JoinColumn(name = "relationship_id_fk"))
-    private List<es.ir.minipim.entity.Relationship> relationships = new ArrayList<>();
-
 }
