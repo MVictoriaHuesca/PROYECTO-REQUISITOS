@@ -11,9 +11,9 @@ TRUNCATE TABLE grupo05DB.product_attribute;
 TRUNCATE TABLE grupo05DB.product_category;
 SET FOREIGN_KEY_CHECKS = 1;
 -- Inserción de cuentas en la tabla account
-INSERT INTO account (account_name, email_address) VALUES
-                                                                               ('User1', 'user1@example.com' ),
-                                                                               ('User2', 'user2@example.com');
+INSERT INTO account (account_name, email_address, group_name) VALUES
+                                                                               ('User1', 'user1@example.com', '1' ),
+                                                                               ('User2', 'user2@example.com', '1');
 
 -- Inserción de productos en la tabla product
 INSERT INTO product (GTIN, SKU, label) VALUES
