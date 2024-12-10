@@ -19,9 +19,6 @@ import java.util.List;
 @RequestMapping("/relationships")
 public class RelationshipController {
 
-<<<<<<< HEAD
-
-=======
     @Autowired
     protected RelationshipRepository relationshipRepository;
 
@@ -40,14 +37,17 @@ public class RelationshipController {
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         List<AccountRelationship> lista = this.accountRelationshipRepository.findByAccountId(1);
         model.addAttribute("lista", lista);
         return "listadoRelaciones";
     }
 
     @GetMapping("/delete")
-    public String doBorrar(@RequestParam("id") Integer id, HttpSession session) {
-
+    public String doBorrar(@RequestParam("id") Integer id, HttpSession session, Model model) {
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         // Buscar la relación a eliminar
         Relationship relationship = this.relationshipRepository.findById(id).get();
 
@@ -79,7 +79,8 @@ public class RelationshipController {
 
     @GetMapping("/new")
     public String doNuevo (Model model, HttpSession session) {
-
+        Account accountCabecera = (Account) session.getAttribute("account");
+        model.addAttribute("account", accountCabecera);
         RelationshipUI relationship = new RelationshipUI();
         relationship.setIdRelationship(-1);
         relationship.setAccount(this.accountRepository.findById(1).get());
@@ -87,6 +88,5 @@ public class RelationshipController {
 
         return "crearRelacion";    //"newCategory"
     }
->>>>>>> c885477c5ba5a7b2ff62e926ac02f7b16a60dd95
 
 }
