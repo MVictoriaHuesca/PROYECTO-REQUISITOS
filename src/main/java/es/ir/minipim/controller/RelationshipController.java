@@ -37,7 +37,9 @@ public class RelationshipController {
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
-        List<AccountRelationship> lista = this.accountRelationshipRepository.findByAccountId(1);
+        Account account = this.accountRepository.findById(1).get();
+        List<Relationship> lista = account.getRelationships();
+        model.addAttribute("account", account);
         model.addAttribute("lista", lista);
 
         return "listadoRelaciones";
@@ -87,6 +89,7 @@ public class RelationshipController {
         Account account = this.accountRepository.findById(1).get();
         List<Product> listaprod = account.getProducts();
 
+        model.addAttribute("account", account);
         model.addAttribute("listaprod", listaprod);
         model.addAttribute("relacion", relationship);
 
@@ -109,16 +112,19 @@ public class RelationshipController {
         // Buscar los productos seleccionados
         Product product1 = this.productRepository.findById(product1Id).orElse(null);
         Product product2 = this.productRepository.findById(product2Id).orElse(null);
+        Account account = this.accountRepository.findById(1).get();
 
         if (product1 != null && product2 != null) {
             // Crear la nueva relación
             Relationship relationship = new Relationship();
             relationship.setName(name);
+            account.getRelationships().add(relationship);
             relationship.setProduct1IdFk(product1); // Asignar el primer producto
             relationship.setProduct2IdFk(product2); // Asignar el segundo producto
 
             // Guardar la relación
             this.relationshipRepository.save(relationship);
+            this.accountRepository.save(account);
 
             System.out.println("Relación guardada con éxito: " + relationship.getId());
         } else {

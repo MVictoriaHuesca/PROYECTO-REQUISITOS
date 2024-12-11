@@ -1,8 +1,9 @@
 <%@ page import="es.ir.minipim.entity.AccountRelationship" %>
 <%@ page import="java.util.List" %>
+<%@ page import="es.ir.minipim.entity.Relationship" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<AccountRelationship> lista = (List<AccountRelationship>) request.getAttribute("lista");
+    List<Relationship> lista = (List<Relationship>) request.getAttribute("lista");
 %>
 <html>
 <head>
@@ -88,10 +89,12 @@
     </thead>
     <tbody>
     <%
-        for (AccountRelationship relationship : lista) {
+        for (Relationship relationship : lista) {
+
     %>
     <tr>
         <td><%= relationship.getId() %></td>
+        <td><%= relationship.getName() %></td>
         <td class="action-icons">
             <a href="/relationships/edit?id=<%= relationship.getId() %>">
                 <img src="/Images/editar.png" alt="Edit" title="Edit" />
