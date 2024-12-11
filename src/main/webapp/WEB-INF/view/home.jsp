@@ -17,7 +17,7 @@
 </div>
 
 <div class="home-container">
-    <h1>home de <%= accountName %></h1>
+    <h1>Home de <%= accountName %></h1>
 </div>
 </body>
 </html>

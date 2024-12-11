@@ -1,0 +1,107 @@
+/* General container for the content */
+.content {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Main header */
+.content h1 {
+    text-align: center;
+    color: #333;
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+}
+
+/* Paragraph styles */
+.content p {
+    font-family: Arial, sans-serif;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Highlighted text */
+.content p strong {
+    color: #000;
+}
+
+/* Buttons */
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Links inside buttons */
+button a {
+    text-decoration: none;
+    color: #fff;
+}
+
+button a:hover {
+    text-decoration: underline;
+}
+
+/* Statistics section */
+.stats {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 8px;
+}
+
+.stats h2 {
+    font-family: Arial, sans-serif;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table thead th {
+    background-color: #3a3e43;
+    color: #fff;
+    padding: 10px;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+table tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+    color: #555;
+}
+
+/* Profile picture style */
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* SVG icon */
+.svg-icon {
+    width: 40px;
+    height: 40px;
+    fill: #888;
+}
