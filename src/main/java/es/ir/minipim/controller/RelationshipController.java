@@ -37,17 +37,15 @@ public class RelationshipController {
 
     @GetMapping("/")
     public String doListar(Model model, HttpSession session){
-        Account accountCabecera = (Account) session.getAttribute("account");
-        model.addAttribute("account", accountCabecera);
         List<AccountRelationship> lista = this.accountRelationshipRepository.findByAccountId(1);
         model.addAttribute("lista", lista);
+
         return "listadoRelaciones";
     }
 
     @GetMapping("/delete")
-    public String doBorrar(@RequestParam("id") Integer id, HttpSession session, Model model) {
-        Account accountCabecera = (Account) session.getAttribute("account");
-        model.addAttribute("account", accountCabecera);
+    public String doBorrar(@RequestParam("id") Integer id, HttpSession session) {
+
         // Buscar la relación a eliminar
         Relationship relationship = this.relationshipRepository.findById(id).get();
 
@@ -78,14 +76,59 @@ public class RelationshipController {
 
 
     @GetMapping("/new")
-    public String doNuevo (Model model, HttpSession session) {
-        Account accountCabecera = (Account) session.getAttribute("account");
-        model.addAttribute("account", accountCabecera);
+    public String doNuevo(Model model, HttpSession session) {
+
+        // Crear un objeto RelationshipUI para vincularlo al formulario
         RelationshipUI relationship = new RelationshipUI();
         relationship.setIdRelationship(-1);
         relationship.setAccount(this.accountRepository.findById(1).get());
+
+        // Obtener la lista de productos asociados a la cuenta
+        Account account = this.accountRepository.findById(1).get();
+        List<Product> listaprod = account.getProducts();
+
+        model.addAttribute("listaprod", listaprod);
         model.addAttribute("relacion", relationship);
 
-        return "crearRelacion";    //"newCategory"
+        return "crearRelacion";
     }
+
+    @RequestMapping("/save")
+    public String doGuardarRelacion(
+            @RequestParam("name") String name,
+            @RequestParam("product1") Integer product1Id,
+            @RequestParam("product2") Integer product2Id,
+            HttpSession session) {
+
+        // Validar que se seleccionaron dos productos diferentes
+        if (product1Id.equals(product2Id)) {
+            session.setAttribute("error", "Los productos seleccionados no pueden ser los mismos.");
+            return "redirect:/relationships/new";
+        }
+
+        // Buscar los productos seleccionados
+        Product product1 = this.productRepository.findById(product1Id).orElse(null);
+        Product product2 = this.productRepository.findById(product2Id).orElse(null);
+
+        if (product1 != null && product2 != null) {
+            // Crear la nueva relación
+            Relationship relationship = new Relationship();
+            relationship.setName(name);
+            relationship.setProduct1IdFk(product1); // Asignar el primer producto
+            relationship.setProduct2IdFk(product2); // Asignar el segundo producto
+
+            // Guardar la relación
+            this.relationshipRepository.save(relationship);
+
+            System.out.println("Relación guardada con éxito: " + relationship.getId());
+        } else {
+            System.err.println("Error: uno de los productos no existe");
+        }
+
+
+        return "redirect:/relationships/";
+    }
+
+
+
 }

@@ -2,12 +2,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.ir.minipim.entity.Product" %>
-<%@ page import="es.ir.minipim.entity.Category" %>
-<%@ page import="es.ir.minipim.entity.Relationship" %>
+<%
+    List<Product> lista = (List<Product>) request.getAttribute("listaprod");
+%>
 <html>
 <head>
-
-
     <title>New Relationship</title>
     <style>
         /* Estilo para la tabla */
@@ -42,20 +41,54 @@
 <jsp:include page="cabecera.jsp" />
 <h1>Add Relationship</h1>
 <%--@elvariable id="relacion" type=""--%>
-<form:form method="post" action="/relationship/save" modelAttribute="relacion">
+<form:form method="post" action="/relationships/save" modelAttribute="relacion">
     <form:hidden path="idRelationship" />
     <table>
         <tr>
             <th>Relationship Name:</th>
-            <td><form:input path="name" size="50" maxlength="50"/></td>
+            <td><form:input path="name" size="50" maxlength="50" /></td>
             <td colspan="2" style="text-align: center;">
                 <button type="submit">Accept</button>
             </td>
         </tr>
     </table>
-    
+
+    <!-- Primera tabla: Selección del primer producto -->
+    <h2>Select Product 1</h2>
     <table>
-        
+        <tr>
+            <th>Select</th>
+            <th>Product Label</th>
+        </tr>
+        <%
+            for (Product producto : lista) {
+        %>
+        <tr>
+            <td><input type="radio" name="product1" value="<%= producto.getId() %>" required /></td>
+            <td><%= producto.getLabel() %></td>
+        </tr>
+        <%
+            }
+        %>
+    </table>
+
+    <!-- Segunda tabla: Selección del segundo producto -->
+    <h2>Select Product 2</h2>
+    <table>
+        <tr>
+            <th>Select</th>
+            <th>Product Label</th>
+        </tr>
+        <%
+            for (Product producto : lista) {
+        %>
+        <tr>
+            <td><input type="radio" name="product2" value="<%= producto.getId() %>" required /></td>
+            <td><%= producto.getLabel() %></td>
+        </tr>
+        <%
+            }
+        %>
     </table>
 </form:form>
 </body>
