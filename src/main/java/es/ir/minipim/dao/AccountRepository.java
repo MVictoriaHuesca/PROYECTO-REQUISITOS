@@ -11,4 +11,6 @@ import java.util.List;
 public interface AccountRepository extends JpaRepository<Account, Integer>{
     @Query("select a from Account a where a.groupName = :groupName and a.id != :id")
     public List<Account> findByGroupName(@Param("groupName") String groupName, @Param("id") Integer id);
+
+
 }

@@ -60,16 +60,9 @@
             <th>Select</th>
             <th>Product Label</th>
         </tr>
-        <%
-            for (Product producto : lista) {
-        %>
         <tr>
-            <td><input type="radio" name="product1" value="<%= producto.getId() %>" required /></td>
-            <td><%= producto.getLabel() %></td>
+            <td><form:radiobuttons path="product_1" items="${lista}" itemLabel="label" itemValue="id"/></td>
         </tr>
-        <%
-            }
-        %>
     </table>
 
     <!-- Segunda tabla: Selección del segundo producto -->
@@ -79,16 +72,9 @@
             <th>Select</th>
             <th>Product Label</th>
         </tr>
-        <%
-            for (Product producto : lista) {
-        %>
         <tr>
-            <td><input type="radio" name="product2" value="<%= producto.getId() %>" required /></td>
-            <td><%= producto.getLabel() %></td>
+            <td><form:radiobuttons path="product_2" items="${lista}" itemLabel="label" itemValue="id"/></td>
         </tr>
-        <%
-            }
-        %>
     </table>
 </form:form>
 </body>

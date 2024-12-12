@@ -9,12 +9,17 @@ import java.time.Instant;
 
 public class RelationshipUI {
     private String name;
-    private Product product_1;
-    private Product product_2;
+    private Integer product_1;
+    private Integer product_2;
     private Account account;
     private Integer idRelationship;
 
     public RelationshipUI() {
+        this.name = "";
+        this.product_1 = -1;
+        this.product_2 = -1;
+        this.account = new Account();
+        this.idRelationship = 0;
     }
 
     public String getName() {
@@ -24,11 +29,11 @@ public class RelationshipUI {
         this.name = name;
     }
 
-    public Product getProduct_1() {return product_1;}
-    public void setProduct_1(Product product_1) {this.product_1 = product_1;}
+    public Integer getProduct_1() {return product_1;}
+    public void setProduct_1(Integer product_1) {this.product_1 = product_1;}
 
-    public Product getProduct_2() {return product_2;}
-    public void setProduct_2(Product product_2) {this.product_2 = product_2;}
+    public Integer getProduct_2() {return product_2;}
+    public void setProduct_2(Integer product_2) {this.product_2 = product_2;}
 
     public Account getAccount() {
         return account;

@@ -4,12 +4,15 @@ import es.ir.minipim.dao.*;
 import es.ir.minipim.entity.*;
 import es.ir.minipim.ui.Filtro;
 import es.ir.minipim.ui.ProductDTO;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,11 +78,23 @@ public class ProductController {
             categories.add(p.getCategoryIdFk());
         }
 
+        // Relaciones
+        List<ProductRelationship> productRelationships =  producto.getProductRelationships();
+        List<Relationship> relationships = new ArrayList<>();
+        for(ProductRelationship pr : productRelationships){
+            relationships.add(pr.getRelationshipIdFk());
+        }
+
         model.addAttribute("producto", producto);
+
         model.addAttribute("productAttributes", productAttributes);
         model.addAttribute("attributes", attributes);
+
         model.addAttribute("productCategories", productCategories);
         model.addAttribute("categories", categories);
+
+        model.addAttribute("relationships", relationships);
+        model.addAttribute("productRelationships", productRelationships);
 
         return "consultarProducto";
     }
@@ -215,6 +230,7 @@ public class ProductController {
             this.productCategoryRepository.save(productCategory);
         }
 
+        // Atributos
         int i = 0;
         for(Integer id : product.getAttributeIds()){
             Attribute attribute = this.attributeRepository.findById(id).get();
@@ -236,8 +252,6 @@ public class ProductController {
 
             this.productAttributeRepository.save(productAttribute);
         }
-
-
 
         return "redirect:/products/";
     }
@@ -274,6 +288,80 @@ public class ProductController {
 
         List<Category> categories = account.getCategories(); // Lista de categorias de la cuenta
         model.addAttribute("categories", categories);
+
+        List<Attribute> atributosFloat = this.attributeRepository.atributosFloat();
+        model.addAttribute("atributosFloat", atributosFloat);
         return "/Product/exportarProducto";
+    }
+
+    @PostMapping("/filter")
+    public String doFilter(@ModelAttribute("filtro") Filtro filtro, HttpSession session, Model model){
+        Account account = this.accountRepository.findById(1).get();
+        model.addAttribute("account", account);
+        List<Product> lista = new ArrayList<>();
+        if(filtro.estaVacio()){
+            lista = account.getProducts();
+        } else {
+            Category category = this.categoryRepository.findById(filtro.getCategory()).get();
+            List<ProductCategory> productCategories = this.productCategoryRepository.findByCategoryIdFk(category);
+            for(ProductCategory pc : productCategories){
+                lista.add(pc.getProductIdFk());
+            }
+        }
+
+        model.addAttribute("filtro", filtro);
+
+        List<Category> categories = account.getCategories(); // Lista de categorias de la cuenta
+        model.addAttribute("categories", categories);
+
+        List<Attribute> atributosFloat = this.attributeRepository.atributosFloat();
+        model.addAttribute("atributosFloat", atributosFloat);
+
+        model.addAttribute("lista", lista);
+        return "/Product/exportarProducto";
+    }
+
+    @PostMapping("/generate")
+    public void doGenerate(@ModelAttribute("filtro") Filtro filtro, HttpSession session, Model model, HttpServletResponse response) throws IOException {
+        Account account = this.accountRepository.findById(1).get();
+        model.addAttribute("account", account);
+        List<Product> lista = new ArrayList<>();
+        if(filtro.estaVacio()){
+            lista = account.getProducts();
+        } else {
+            Category category = this.categoryRepository.findById(filtro.getCategory()).get();
+            List<ProductCategory> productCategories = this.productCategoryRepository.findByCategoryIdFk(category);
+            for(ProductCategory pc : productCategories){
+                lista.add(pc.getProductIdFk());
+            }
+        }
+
+        Attribute precio = this.attributeRepository.findById(filtro.getPrice()).orElse(null);
+
+        model.addAttribute("lista", lista);
+
+        if(precio != null){
+            try(PrintWriter writer = response.getWriter()) {
+                response.setContentType("text/csv");
+                response.setHeader("Content-Disposition", "attachment; filename=\"accounts.csv\"");
+
+                // Encabezado
+                writer.println("SKU,Title,Fullfilled By,Amazon_SKU,Price,Offer Primer");
+
+                for(Product p:lista){
+                    for(ProductAttribute pa : p.getProductAttributes()){
+                        if(pa.getAttributeIdFk().getId() == precio.getId()){
+                            writer.println(p.getSku() + "," + p.getLabel() + "," + account.getGroupName() + "," + p.getGtin() + "," +
+                                    pa.getValue() + ",false");
+                        }
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        } else {
+            response.setContentType("text/plain");
+            response.getWriter().println("The exportation could not be done. You must have a float attribute");
+        }
     }
 }

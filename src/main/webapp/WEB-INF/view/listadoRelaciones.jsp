@@ -83,7 +83,7 @@
     <thead>
     <tr>
         <th>Relationship ID</th>
-        <th>Edit</th>
+        <th>Name</th>
         <th>Delete</th>
     </tr>
     </thead>
@@ -95,11 +95,6 @@
     <tr>
         <td><%= relationship.getId() %></td>
         <td><%= relationship.getName() %></td>
-        <td class="action-icons">
-            <a href="/relationships/edit?id=<%= relationship.getId() %>">
-                <img src="/Images/editar.png" alt="Edit" title="Edit" />
-            </a>
-        </td>
         <td class="action-icons">
             <a href="/relationships/delete?id=<%= relationship.getId() %>">
                 <img src="/Images/eliminar.png" alt="Delete" title="Delete" />

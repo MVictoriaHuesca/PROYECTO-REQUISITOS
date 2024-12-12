@@ -18,6 +18,7 @@ public class ProductDTO {
     private List<Integer> categories;
     private List<Integer> attributeIds;
     private List<String> attributeValues;
+    private List<Integer> relationships;
 
 
     public List<String> getAttributeValues() {
@@ -88,4 +89,11 @@ public class ProductDTO {
         this.categories = categories;
     }
 
+    public List<Integer> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(List<Integer> relationships) {
+        this.relationships = relationships;
+    }
 }

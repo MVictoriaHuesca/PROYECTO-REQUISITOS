@@ -12,4 +12,7 @@ public interface AttributeRepository extends JpaRepository <Attribute, Integer> 
     @Query("select a from Attribute a where a.accountIdFk.id = :id")
     public List<Attribute> listarAtributosCuenta (@Param("id") Integer id);
 
+    @Query("select a from Attribute a where a.attributeType = 'Float'")
+    public List<Attribute> atributosFloat();
+
 }

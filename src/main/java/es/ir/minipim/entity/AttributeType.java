@@ -5,7 +5,8 @@ public enum AttributeType {
     Integer,
     Double,
     Text,
-    Imagen
+    Imagen,
+    Float
 
 
 

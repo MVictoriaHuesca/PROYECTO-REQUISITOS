@@ -7,6 +7,10 @@
     List<ProductAttribute> productAttributes = (List<ProductAttribute>) request.getAttribute("productAttributes");
     List<Category> categories = (List<Category>) request.getAttribute("categories");
     List<ProductCategory> productCategories = (List<ProductCategory>) request.getAttribute("productCategories");
+
+    List<Relationship> relationships = (List<Relationship>) request.getAttribute("relationships");
+    List<ProductRelationship> productRelationships = (List<ProductRelationship>) request.getAttribute("productRelationships");
+
 %>
 <html>
 <head>
@@ -131,6 +135,23 @@
                         if (pc.getCategoryIdFk().getId().equals(cat.getId())) {
             %>
             <li><%= cat.getCategoryName() %></li>
+            <%
+                        }
+                    }
+                }
+            %>
+        </ul>
+    </div>
+
+    <div class="container-relationships">
+        <h3>Relationships</h3>
+        <ul>
+            <%
+                for (Relationship rel : relationships) {
+                    for (ProductRelationship pr : productRelationships) {
+                        if (pr.getRelationshipIdFk().getId().equals(rel.getId())) {
+            %>
+            <li><%= pr.getRelationshipIdFk().getName()%></li>
             <%
                         }
                     }
