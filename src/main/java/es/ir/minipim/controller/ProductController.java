@@ -343,7 +343,7 @@ public class ProductController {
         if(precio != null){
             try(PrintWriter writer = response.getWriter()) {
                 response.setContentType("text/csv");
-                response.setHeader("Content-Disposition", "attachment; filename=\"accounts.csv\"");
+                response.setHeader("Content-Disposition", "attachment; filename=\"products.csv\"");
 
                 // Encabezado
                 writer.println("SKU,Title,Fullfilled By,Amazon_SKU,Price,Offer Primer");
