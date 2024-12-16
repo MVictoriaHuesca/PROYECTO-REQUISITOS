@@ -150,8 +150,11 @@
                 for (Relationship rel : relationships) {
                     for (ProductRelationship pr : productRelationships) {
                         if (pr.getRelationshipIdFk().getId().equals(rel.getId())) {
+                            String productAsociado = pr.getRelationshipIdFk().getProduct1IdFk().getId().equals(producto.getId()) ?
+                                    pr.getRelationshipIdFk().getProduct2IdFk().getLabel() :
+                                    pr.getRelationshipIdFk().getProduct1IdFk().getLabel();
             %>
-            <li><%= pr.getRelationshipIdFk().getName()%></li>
+            <li><%= pr.getRelationshipIdFk().getName()%>: <%= productAsociado%></li>
             <%
                         }
                     }

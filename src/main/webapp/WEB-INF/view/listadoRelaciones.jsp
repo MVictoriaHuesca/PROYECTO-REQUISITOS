@@ -4,6 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<Relationship> lista = (List<Relationship>) request.getAttribute("lista");
+    String error = (String) request.getAttribute("error");
 %>
 <html>
 <head>
@@ -78,7 +79,9 @@
 <div class="container-cabecera">
     <jsp:include page="cabecera.jsp" />
 </div>
-
+<% if (error != null) { %>
+    <p style="color: red;"><%= error %></p>
+<% } %>
 <table>
     <thead>
     <tr>

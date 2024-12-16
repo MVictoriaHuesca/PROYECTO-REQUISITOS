@@ -43,6 +43,10 @@ public class RelationshipController {
         model.addAttribute("account", account);
         model.addAttribute("lista", lista);
 
+        if(session.getAttribute("error") != null) {
+            model.addAttribute("error", session.getAttribute("error"));
+            session.removeAttribute("error");
+        }
         return "listadoRelaciones";
     }
 
@@ -81,6 +85,11 @@ public class RelationshipController {
     @GetMapping("/new")
     public String doNuevo(Model model, HttpSession session) {
         // Crear un objeto RelationshipUI para vincularlo al formulario
+        int numeroRelaciones = this.relationshipRepository.findAll().size();
+        if(numeroRelaciones >=3){
+            session.setAttribute("error", "No se pueden crear más de 3 relaciones.");
+            return "redirect:/relationships/";
+        }
         RelationshipUI relationship = new RelationshipUI();
         relationship.setIdRelationship(-1);
         relationship.setAccount(this.accountRepository.findById(1).get());
@@ -112,7 +121,9 @@ public class RelationshipController {
             return "redirect:/relationships/new";
         }
 
-        if(this.relationshipRepository.existeNombreRelacion(relacion.getName()) ==  );
+        int relaciones = this.relationshipRepository.existeNombreRelacion(relacion.getName());
+        if(relaciones > 0){
+            session.setAttribute("error", "Ya existe una relación con ese nombre.");
             return "redirect:/relationships/new";
         }
 
