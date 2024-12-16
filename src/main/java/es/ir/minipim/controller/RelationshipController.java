@@ -87,7 +87,7 @@ public class RelationshipController {
         // Crear un objeto RelationshipUI para vincularlo al formulario
         int numeroRelaciones = this.relationshipRepository.findAll().size();
         if(numeroRelaciones >=3){
-            session.setAttribute("error", "No se pueden crear más de 3 relaciones.");
+            session.setAttribute("error", "Could not make more than 3 relationship.");
             return "redirect:/relationships/";
         }
         RelationshipUI relationship = new RelationshipUI();
@@ -117,25 +117,25 @@ public class RelationshipController {
 
         // Validar que se haya completado el campo nombre
         if (relacion.getName().isEmpty()) {
-            session.setAttribute("error", "El campo nombre es obligatorio.");
+            session.setAttribute("error", "You should name the relationship.");
             return "redirect:/relationships/new";
         }
 
         int relaciones = this.relationshipRepository.existeNombreRelacion(relacion.getName());
         if(relaciones > 0){
-            session.setAttribute("error", "Ya existe una relación con ese nombre.");
+            session.setAttribute("error", "There is already one relationship with the same name.");
             return "redirect:/relationships/new";
         }
 
         // Validar que se seleccionaron dos productos diferentes
         if (product1 == null || product2 ==null) {
-            session.setAttribute("error", "Se deben seleccionar 2 productos.");
+            session.setAttribute("error", "You must select two products.");
             return "redirect:/relationships/new";
         }
 
         // Validar que se seleccionaron dos productos diferentes
         if (product1.equals(product2)) {
-            session.setAttribute("error", "Los productos seleccionados no pueden ser los mismos.");
+            session.setAttribute("error", "You can't select the the same product.");
             return "redirect:/relationships/new";
         }
 
