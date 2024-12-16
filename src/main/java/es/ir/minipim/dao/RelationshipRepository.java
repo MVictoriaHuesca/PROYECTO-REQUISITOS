@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface RelationshipRepository extends JpaRepository<Relationship, Integer> {
-    @Query("SELECT c FROM AccountCategory c WHERE c.accountIdFk.id = :accountId")
-    List<AccountCategory> findByAccountId(@Param("accountId") Integer accountId);
+    //count relatioships with same name as param
+    @Query("SELECT COUNT(r) FROM Relationship r WHERE r.name = :name")
+    public int existeNombreRelacion(@Param("name") String name);
 }

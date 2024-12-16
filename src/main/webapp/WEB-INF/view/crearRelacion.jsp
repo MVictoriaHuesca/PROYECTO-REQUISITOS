@@ -4,6 +4,7 @@
 <%@ page import="es.ir.minipim.entity.Product" %>
 <%
     List<Product> lista = (List<Product>) request.getAttribute("listaprod");
+    String error = (String) request.getAttribute("error");
 %>
 <html>
 <head>
@@ -40,6 +41,9 @@
 <body>
 <jsp:include page="cabecera.jsp" />
 <h1>Add Relationship</h1>
+<% if (error != null) { %>
+    <p style="color: red;"><%= error %></p>
+<% } %>
 <%--@elvariable id="relacion" type=""--%>
 <form:form method="post" action="/relationships/save" modelAttribute="relacion">
     <form:hidden path="idRelationship" />

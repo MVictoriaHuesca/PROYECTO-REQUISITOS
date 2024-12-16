@@ -92,7 +92,10 @@ public class RelationshipController {
         model.addAttribute("account", account);
         model.addAttribute("lista", listaprod);
         model.addAttribute("relacion", relationship);
-
+        if(session.getAttribute("error") != null) {
+            model.addAttribute("error", session.getAttribute("error"));
+            session.removeAttribute("error");
+        }
         return "crearRelacion";
     }
 
@@ -102,6 +105,22 @@ public class RelationshipController {
         Product product1 = this.productRepository.findById(relacion.getProduct_1()).orElse(null);
         Product product2 = this.productRepository.findById(relacion.getProduct_2()).orElse(null);
         Account account = this.accountRepository.findById(1).get();
+
+        // Validar que se haya completado el campo nombre
+        if (relacion.getName().isEmpty()) {
+            session.setAttribute("error", "El campo nombre es obligatorio.");
+            return "redirect:/relationships/new";
+        }
+
+        if(this.relationshipRepository.existeNombreRelacion(relacion.getName()) ==  );
+            return "redirect:/relationships/new";
+        }
+
+        // Validar que se seleccionaron dos productos diferentes
+        if (product1 == null || product2 ==null) {
+            session.setAttribute("error", "Se deben seleccionar 2 productos.");
+            return "redirect:/relationships/new";
+        }
 
         // Validar que se seleccionaron dos productos diferentes
         if (product1.equals(product2)) {
